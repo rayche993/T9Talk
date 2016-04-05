@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="PrisJPA">
+		<jta-data-source>java:/MyPris</jta-data-source>
+		<class>model.Komentar</class>
+		<class>model.Kurs</class>
+		<class>model.Lekcija</class>
+		<class>model.Odgovor</class>
+		<class>model.Pitanje</class>
+		<class>model.Polaze</class>
+		<class>model.PolazePK</class>
+		<class>model.Test</class>
+		<class>model.User</class>
+		<class>model.UserRole</class>
+	</persistence-unit>
+</persistence>
