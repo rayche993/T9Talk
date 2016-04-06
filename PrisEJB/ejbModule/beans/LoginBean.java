@@ -84,4 +84,34 @@ public class LoginBean implements LoginBeanRemote, LoginBeanLocal {
     	
     	return true;
     }
+    
+    public User registerUser(String ime, String prezime, String username, String password, String role){
+    	if (isAllreadyRegistred(username))
+    		return null;
+    	
+    	TypedQuery<UserRole> query = em.createQuery("SELECT r FROM UserRole r WHERE r.opis = :opis", UserRole.class);
+    	query.setParameter("opis", role);
+    	
+    	UserRole ur = null;
+    	if (query.getSingleResult() != null)
+    		ur = query.getSingleResult();
+    	else
+    		return null;
+    	
+    	User user = new User();
+    	user.setIme(ime);
+    	user.setPrezime(prezime);
+    	user.setUsername(username);
+    	user.setPassword(password);
+    	user.setUserrole(ur);
+    	
+    	try{
+    		em.persist(user);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return null;
+    	}
+    	
+    	return user;
+    }
 }

@@ -8,6 +8,7 @@
 <title>Login</title>
 </head>
 <body>
+	<a href="index.jsp">Pocetna strana</a>
 	<%
 	UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 	if (user == null){

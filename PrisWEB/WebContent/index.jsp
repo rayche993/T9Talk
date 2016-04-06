@@ -12,7 +12,8 @@
 	UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 	if (user == null){
 		%>
-		<a href="login.jsp">Login</a>
+		<a href="login.jsp">Login</a><br>
+		<a href="register.jsp">Register</a>
 		<%
 	}else{
 		%>

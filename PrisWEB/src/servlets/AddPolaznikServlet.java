@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,18 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.LoginBeanLocal;
+import beans.LoginBeanRemote;
+import beans.UserBeanRemote;
+import model.User;
 
 /**
- * Servlet implementation class AddPredavacServlet
+ * Servlet implementation class AddPolaznikServlet
  */
-@WebServlet("/AddPredavacServlet")
-public class AddPredavacServlet extends HttpServlet {
+@WebServlet("/AddPolaznikServlet")
+public class AddPolaznikServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddPredavacServlet() {
+    public AddPolaznikServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -60,25 +65,43 @@ public class AddPredavacServlet extends HttpServlet {
 		if (password.isEmpty())
 			greske.add("Morate uneti password!");
 		
+		String path = "";
+		
 		RequestDispatcher rd = null;
-		rd = getServletContext().getRequestDispatcher("/admin.jsp");
+		
+		User user = null;
+		
+		InitialContext ic = null;
+		UserBeanRemote userBean = null;
 		
 		String poruka = null;
-		
 		if (greske.size() == 0){
-			if (logBean.registerUser(ime, prezime, username, password, "Polaznik") != null)
-				poruka = "Uspesno registrovan predavac!";
-			else
+			if ((user = logBean.registerUser(ime, prezime, username, password, "Predavac")) != null){
+				path = "/index.jsp";
+				
+				try {
+					ic = new InitialContext();
+					userBean = (UserBeanRemote) ic.lookup("java:global/PrisEAR/PrisEJB/UserBean!beans.UserBeanRemote");
+					userBean.setMyUser(user);
+					request.getSession().setAttribute("user", userBean);
+				} catch (NamingException e) {
+					e.printStackTrace();
+				}
+			}else{
+				path = "/register.jsp";
 				poruka = "Neuspesno registrovan predavac!";
+				request.setAttribute("poruka", poruka);
+			}
 		}else{
+			path = "/register.jsp";
 			request.setAttribute("ime", ime);
 			request.setAttribute("prezime", prezime);
 			request.setAttribute("username", username);
 		}
 		
-		request.setAttribute("poruka", poruka);
+		rd = getServletContext().getRequestDispatcher(path);
+		
 		request.setAttribute("greske", greske);
 		rd.forward(request, response);
 	}
-
 }
