@@ -16,7 +16,7 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String userid;
+	private int userid;
 
 	private String ime;
 
@@ -80,11 +80,11 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public String getUserid() {
+	public int getUserid() {
 		return this.userid;
 	}
 
-	public void setUserid(String userid) {
+	public void setUserid(int userid) {
 		this.userid = userid;
 	}
 

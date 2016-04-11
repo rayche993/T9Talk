@@ -13,23 +13,23 @@ public class PolazePK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(insertable=false, updatable=false)
-	private String userid;
+	private int userid;
 
 	@Column(insertable=false, updatable=false)
-	private String testid;
+	private int testid;
 
 	public PolazePK() {
 	}
-	public String getUserid() {
+	public int getUserid() {
 		return this.userid;
 	}
-	public void setUserid(String userid) {
+	public void setUserid(int userid) {
 		this.userid = userid;
 	}
-	public String getTestid() {
+	public int getTestid() {
 		return this.testid;
 	}
-	public void setTestid(String testid) {
+	public void setTestid(int testid) {
 		this.testid = testid;
 	}
 
@@ -42,15 +42,15 @@ public class PolazePK implements Serializable {
 		}
 		PolazePK castOther = (PolazePK)other;
 		return 
-			this.userid.equals(castOther.userid)
-			&& this.testid.equals(castOther.testid);
+			(this.userid == castOther.userid)
+			&& (this.testid == castOther.testid);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.userid.hashCode();
-		hash = hash * prime + this.testid.hashCode();
+		hash = hash * prime + this.userid;
+		hash = hash * prime + this.testid;
 		
 		return hash;
 	}

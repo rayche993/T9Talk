@@ -16,7 +16,7 @@ public class Pitanje implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String pitanjeid;
+	private int pitanjeid;
 
 	@Lob
 	private String text;
@@ -35,11 +35,11 @@ public class Pitanje implements Serializable {
 	public Pitanje() {
 	}
 
-	public String getPitanjeid() {
+	public int getPitanjeid() {
 		return this.pitanjeid;
 	}
 
-	public void setPitanjeid(String pitanjeid) {
+	public void setPitanjeid(int pitanjeid) {
 		this.pitanjeid = pitanjeid;
 	}
 

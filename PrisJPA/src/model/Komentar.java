@@ -15,14 +15,14 @@ public class Komentar implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String komentarid;
+	private int komentarid;
 
 	private String opis;
 
-	//bi-directional many-to-one association to Lekcija
+	//bi-directional many-to-one association to Kurs
 	@ManyToOne
-	@JoinColumn(name="LEKCIJAID")
-	private Lekcija lekcija;
+	@JoinColumn(name="KURSID")
+	private Kurs kur;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -32,11 +32,11 @@ public class Komentar implements Serializable {
 	public Komentar() {
 	}
 
-	public String getKomentarid() {
+	public int getKomentarid() {
 		return this.komentarid;
 	}
 
-	public void setKomentarid(String komentarid) {
+	public void setKomentarid(int komentarid) {
 		this.komentarid = komentarid;
 	}
 
@@ -48,12 +48,12 @@ public class Komentar implements Serializable {
 		this.opis = opis;
 	}
 
-	public Lekcija getLekcija() {
-		return this.lekcija;
+	public Kurs getKur() {
+		return this.kur;
 	}
 
-	public void setLekcija(Lekcija lekcija) {
-		this.lekcija = lekcija;
+	public void setKur(Kurs kur) {
+		this.kur = kur;
 	}
 
 	public User getUser() {

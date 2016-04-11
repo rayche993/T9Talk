@@ -16,13 +16,17 @@ public class Kurs implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String kursid;
+	private int kursid;
 
 	private String ishod;
 
 	private String naziv;
 
 	private String opis;
+
+	//bi-directional many-to-one association to Komentar
+	@OneToMany(mappedBy="kur")
+	private List<Komentar> komentars;
 
 	//bi-directional many-to-many association to User
 	@ManyToMany
@@ -65,11 +69,11 @@ public class Kurs implements Serializable {
 	public Kurs() {
 	}
 
-	public String getKursid() {
+	public int getKursid() {
 		return this.kursid;
 	}
 
-	public void setKursid(String kursid) {
+	public void setKursid(int kursid) {
 		this.kursid = kursid;
 	}
 
@@ -95,6 +99,28 @@ public class Kurs implements Serializable {
 
 	public void setOpis(String opis) {
 		this.opis = opis;
+	}
+
+	public List<Komentar> getKomentars() {
+		return this.komentars;
+	}
+
+	public void setKomentars(List<Komentar> komentars) {
+		this.komentars = komentars;
+	}
+
+	public Komentar addKomentar(Komentar komentar) {
+		getKomentars().add(komentar);
+		komentar.setKur(this);
+
+		return komentar;
+	}
+
+	public Komentar removeKomentar(Komentar komentar) {
+		getKomentars().remove(komentar);
+		komentar.setKur(null);
+
+		return komentar;
 	}
 
 	public List<User> getUsers1() {

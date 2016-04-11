@@ -15,7 +15,7 @@ public class Odgovor implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String odgovorid;
+	private int odgovorid;
 
 	private byte tacan;
 
@@ -30,11 +30,11 @@ public class Odgovor implements Serializable {
 	public Odgovor() {
 	}
 
-	public String getOdgovorid() {
+	public int getOdgovorid() {
 		return this.odgovorid;
 	}
 
-	public void setOdgovorid(String odgovorid) {
+	public void setOdgovorid(int odgovorid) {
 		this.odgovorid = odgovorid;
 	}
 

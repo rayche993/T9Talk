@@ -16,7 +16,7 @@ public class UserRole implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String roleid;
+	private int roleid;
 
 	private String opis;
 
@@ -27,11 +27,11 @@ public class UserRole implements Serializable {
 	public UserRole() {
 	}
 
-	public String getRoleid() {
+	public int getRoleid() {
 		return this.roleid;
 	}
 
-	public void setRoleid(String roleid) {
+	public void setRoleid(int roleid) {
 		this.roleid = roleid;
 	}
 

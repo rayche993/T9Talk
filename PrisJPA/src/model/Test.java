@@ -16,7 +16,7 @@ public class Test implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String testid;
+	private int testid;
 
 	private String naslov;
 
@@ -38,11 +38,11 @@ public class Test implements Serializable {
 	public Test() {
 	}
 
-	public String getTestid() {
+	public int getTestid() {
 		return this.testid;
 	}
 
-	public void setTestid(String testid) {
+	public void setTestid(int testid) {
 		this.testid = testid;
 	}
 

@@ -16,16 +16,12 @@ public class Lekcija implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String lekcijaid;
+	private int lekcijaid;
 
 	@Lob
 	private String text;
 
 	private int tiplekcije;
-
-	//bi-directional many-to-one association to Komentar
-	@OneToMany(mappedBy="lekcija")
-	private List<Komentar> komentars;
 
 	//bi-directional many-to-one association to Kurs
 	@ManyToOne
@@ -44,11 +40,11 @@ public class Lekcija implements Serializable {
 	public Lekcija() {
 	}
 
-	public String getLekcijaid() {
+	public int getLekcijaid() {
 		return this.lekcijaid;
 	}
 
-	public void setLekcijaid(String lekcijaid) {
+	public void setLekcijaid(int lekcijaid) {
 		this.lekcijaid = lekcijaid;
 	}
 
@@ -66,28 +62,6 @@ public class Lekcija implements Serializable {
 
 	public void setTiplekcije(int tiplekcije) {
 		this.tiplekcije = tiplekcije;
-	}
-
-	public List<Komentar> getKomentars() {
-		return this.komentars;
-	}
-
-	public void setKomentars(List<Komentar> komentars) {
-		this.komentars = komentars;
-	}
-
-	public Komentar addKomentar(Komentar komentar) {
-		getKomentars().add(komentar);
-		komentar.setLekcija(this);
-
-		return komentar;
-	}
-
-	public Komentar removeKomentar(Komentar komentar) {
-		getKomentars().remove(komentar);
-		komentar.setLekcija(null);
-
-		return komentar;
 	}
 
 	public Kurs getKur() {
