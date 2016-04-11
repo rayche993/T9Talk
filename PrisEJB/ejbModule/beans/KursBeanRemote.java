@@ -15,5 +15,5 @@ public interface KursBeanRemote {
 	public List<Kurs> getKursevi();
 	public List<Komentar> getKomentari(Kurs kurs);
 	public boolean postComment(String tekst, Kurs kurs, User user);
-	public List<Kurs> getKursevi(String pretraga);
+	public List<Kurs> getKursevi(String pretraga, String parametar);
 }

@@ -104,9 +104,18 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     	return true;
     }
     
-    public List<Kurs> getKursevi(String pretraga){
+    public List<Kurs> getKursevi(String pretraga, String parametar){
     	List<Kurs> kursevi = null;
-    	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k WHERE k.naziv LIKE :str", Kurs.class);
+    	
+    	String polje = null;
+    	switch(parametar){
+	    	case "Naziv": polje = "naziv"; break;
+	    	case "Opis": polje = "opis"; break;
+	    	case "Ishod": polje = "ishod"; break;
+	    	default : polje = ""; break;
+    	}
+    	
+    	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k WHERE k." + polje + " LIKE :str", Kurs.class);
     	query.setParameter("str", "%" + pretraga + "%");
     	
     	try{

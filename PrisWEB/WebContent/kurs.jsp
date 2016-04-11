@@ -15,66 +15,89 @@
 </head>
 <body>
 	<div class="container">
-		<a href="index.jsp">Pocetna Strana</a><br>
 		<%
+		UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 		Kurs kurs = (Kurs)request.getSession().getAttribute("kurs");
 		boolean logged = false;
-		UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
-		if (user == null){
-			%>
-			<a href="login.jsp">Login</a><br>
-			<a href="register.jsp">Register</a>
-			<%
-		}else{
-			%>
-			Dobrodosli <% out.println(user.getMyUser().getUsername()); logged = true;%> .
-			<%
-			if (user.isAdmin()){
-				%>
-				<a href="admin.jsp">Admin Panel</a>
-				<%
-			}
-			%>
-			<form action="/PrisWEB/LogoutServlet" method="post">
-				<input type="submit" value="Logout">
-			</form><br>
-			<%
+		if (user != null){
+			logged = true;
 		}
-		if (kurs != null){
 		%>
-			<h2>${kurs.naziv}</h2><br>
-			<h4>Opis:</h4>
-			<p>${kurs.opis}</p><br>
-			<h4>Ocekivani ishod:</h4>
-			<p>${kurs.ishod}</p><br>
-			
-			<h2>Komentari:</h2>
-			
-			<table class="table table-hover">
-				<c:forEach items="${komentari}" var="komentar">
-				<tr>
-					<td>${komentar.user.username}  :</td>
-					<td>${komentar.opis}</td>
-				</tr>
-				</c:forEach>
-			</table>
-			
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+			    	<a class="navbar-brand" href="index.jsp">Talk</a>
+			    </div>
+			    <ul class="nav navbar-nav">
+			    	<li class="active"><a href="index.jsp">Home</a></li>
+			    	<%
+			    	if (!logged){
+			    	%>
+			    		<li><a href="login.jsp">Login</a></li>
+			    		<li><a href="register.jsp">Register</a></li>
+			    	<%
+			    	}
+			    	if (logged && user.isAdmin()){
+		    		%>
+		    			<li><a href="admin.jsp">Admin Panel</a></li>
+		    		<%
+			    	}
+			    	%>
+				</ul>
+	    	</div>
+		</nav>
+		<div class="col-sm-12">
+			<h2>Header</h2>
 			<%
 			if (logged){
 				%>
-				<form action="/PrisWEB/AddKomentarServlet" method="post">
-					Komentar: <input type="text" name="komentar"><br>
-					<input type="submit" value="Submit">
-				</form>
+				<form class="form-horizontal" action="/PrisWEB/LogoutServlet" method="post">
+					<div class="form-group">
+						<label class="col-sm-3">Dobrodosli <%=user.getMyUser().getUsername()%> .</label>
+						<div class="col-sm-offset-0 col-sm-2">
+							<input type="submit" class="btn btn-danger" value="Logout">
+						</div>
+					</div>
+				</form><br>
 				<%
 			}
-			
-			if (request.getAttribute("poruka") != null)
-				out.println(request.getAttribute("poruka"));
+			if (kurs != null){
 			%>
-		<%
-		}
-		%>
+				<h2>${kurs.naziv}</h2><br>
+				<h4>Opis</h4>
+				<p>${kurs.opis}</p><br>
+				<h4>Ocekivani ishod</h4>
+				<p>${kurs.ishod}</p><br>
+				
+				<h2>Komentari</h2>
+				
+				<table class="table table-hover">
+					<c:forEach items="${komentari}" var="komentar">
+					<tr>
+						<td>${komentar.user.username}  :</td>
+						<td>${komentar.opis}</td>
+					</tr>
+					</c:forEach>
+				</table>
+				
+				<%
+				if (logged){
+						%>
+						<form action="/PrisWEB/AddKomentarServlet" method="post">
+							<div class="form-group">
+								<label class="col-sm-3" for="comm">Komentar: </label>
+								<textarea rows="5" cols="40" class="form-control" id="comm" name="komentar"></textarea>
+							</div>
+							<input type="submit" class="btn btn-success" value="Submit">
+						</form><br>
+						<%
+				}
+				
+				if (request.getAttribute("poruka") != null)
+					out.println(request.getAttribute("poruka"));
+			}
+			%>
+		</div>
 	</div>
 </body>
 </html>

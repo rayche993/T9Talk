@@ -34,35 +34,66 @@
 			}
 		}
 		boolean logged = false;
+		%>
+		<nav class="navbar navbar-default navbar-fixed-top">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="index.jsp">Talk</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a href="index.jsp">Home</a></li>
+		<%
 		UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 		if (user == null){
 			%>
-			<a href="login.jsp">Login</a><br>
-			<a href="register.jsp">Register</a>
+		      <li><a href="login.jsp">Login</a></li>
+		      <li><a href="register.jsp">Register</a></li>
 			<%
 		}else{
-			%>
-			Dobrodosli <% out.println(user.getMyUser().getUsername()); logged = true;%> .
-			<%
+			logged = true;
 			if (user.isAdmin()){
 				%>
-				<a href="admin.jsp">Admin Panel</a>
+				<li><a href="admin.jsp">Admin Panel</a></li>
 				<%
 			}
+		}
+		%>
+			</ul>
+		  </div>
+		</nav>
+		<div class="col-sm-12">
+		<h2>Header</h2>
+		<%
+		if (logged){
 			%>
-			<form action="/PrisWEB/LogoutServlet" method="post">
-				<input type="submit" value="Logout">
+			<form class="form-horizontal" action="/PrisWEB/LogoutServlet" method="post">
+				<div class="form-group">
+					<label class="col-sm-3">Dobrodosli <%=user.getMyUser().getUsername()%> .</label>
+					<div class="col-sm-offset-0 col-sm-2">
+						<input type="submit" class="btn btn-danger" value="Logout">
+					</div>
+				</div>
 			</form><br>
 			<%
 		}
 		%>
+		
 		<h2>Kursevi</h2><br>
 		<form class="form-horizontal" action="/PrisWEB/PretragaServlet" method="post">
 			<div class="form-group">
-				<div class="col-sm-11">
+				<div class="col-sm-2">
+					<select name="parametar" class="form-control">
+						<option selected="<%=true%>" value="Naziv">Naziv</option>
+						<option value="Opis">Opis</option>
+						<option value="Ishod">Ishod</option>
+					</select>
+				</div>
+				<div class="col-sm-9">
 					<input type="text" class="form-control" width="40" name="pretraga">
 				</div>
-				<input type="submit" class="col-sm-1" value="Pretrazi">
+				<div class="col-sm-1">
+					<input type="submit" class="btn btn-default" value="Pretrazi">
+				</div>
 			</div>
 		</form>
 		<form action="/PrisWEB/KursServlet" method="post">
@@ -78,13 +109,14 @@
 					<c:forEach items="<%=courses%>" var="kurs">
 						<tr>
 							<td><c:out value="${kurs.naziv}" /></td>
-							<td><input type="submit" name="${kurs.kursid}" value="Prikazi" /></td>
-							<td><input type="submit" value="Prijavi se" /></td>
+							<td><input type="submit" class="btn btn-info" name="${kurs.kursid}" value="Prikazi" /></td>
+							<td><input type="submit" class="btn btn-success" value="Prijavi se" /></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</form>
+		</div>
 	</div>
 </body>
 </html>

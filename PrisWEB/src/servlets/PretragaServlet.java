@@ -45,8 +45,9 @@ public class PretragaServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pretraga = request.getParameter("pretraga");
+		String parametar = request.getParameter("parametar");
 		
-		List<Kurs> kursevi = kursBean.getKursevi(pretraga);
+		List<Kurs> kursevi = kursBean.getKursevi(pretraga, parametar);
 		
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
 		request.setAttribute("kursevi", kursevi);
