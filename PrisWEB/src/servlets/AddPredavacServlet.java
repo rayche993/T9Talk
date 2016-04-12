@@ -66,7 +66,7 @@ public class AddPredavacServlet extends HttpServlet {
 		String poruka = null;
 		
 		if (greske.size() == 0){
-			if (logBean.registerUser(ime, prezime, username, password, "Polaznik") != null)
+			if (logBean.registerUser(ime, prezime, username, password, "Predavac") != null)
 				poruka = "Uspesno registrovan predavac!";
 			else
 				poruka = "Neuspesno registrovan predavac!";

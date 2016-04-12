@@ -1,11 +1,15 @@
 package beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import model.Kurs;
 import model.User;
 import model.UserRole;
 
@@ -93,10 +97,12 @@ public class LoginBean implements LoginBeanRemote, LoginBeanLocal {
     	query.setParameter("opis", role);
     	
     	UserRole ur = null;
-    	if (query.getSingleResult() != null)
+    	
+    	try{
     		ur = query.getSingleResult();
-    	else
+    	}catch(NoResultException e){
     		return null;
+    	}
     	
     	User user = new User();
     	user.setIme(ime);

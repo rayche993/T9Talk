@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private List<Kurs> kurs1;
 
 	//bi-directional many-to-many association to Kurs
-	@ManyToMany(mappedBy="users2")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy="users2", cascade = CascadeType.ALL)
 	private List<Kurs> kurs2;
 
 	//bi-directional many-to-one association to Lekcija
@@ -60,7 +60,7 @@ public class User implements Serializable {
 	private List<Kurs> kurs3;
 
 	//bi-directional many-to-many association to Kurs
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
 		name="prijavljen"
 		, joinColumns={

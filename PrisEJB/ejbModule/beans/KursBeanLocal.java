@@ -16,4 +16,5 @@ public interface KursBeanLocal {
 	public List<Komentar> getKomentari(Kurs kurs);
 	public boolean postComment(String tekst, Kurs kurs, User user);
 	public List<Kurs> getKursevi(String pretraga, String parametar);
+	public User subscribeUser(User u, Kurs k);
 }

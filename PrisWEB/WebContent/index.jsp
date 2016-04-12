@@ -1,3 +1,4 @@
+<%@page import="model.User"%>
 <%@page import="javax.naming.NamingException"%>
 <%@page import="beans.KursBeanLocal"%>
 <%@page import="javax.naming.InitialContext"%>
@@ -77,8 +78,12 @@
 			<%
 		}
 		%>
-		
 		<h2>Kursevi</h2><br>
+		<%
+		String prijava = (String)request.getAttribute("prijava");
+		if (prijava != null)
+			out.println(prijava);
+		 %>
 		<form class="form-horizontal" action="/PrisWEB/PretragaServlet" method="post">
 			<div class="form-group">
 				<div class="col-sm-2">
@@ -106,13 +111,36 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="<%=courses%>" var="kurs">
+					<%
+					for (Kurs kurs : courses){
+						boolean disabled = false;
+						String nazivK = kurs.getNaziv();
+						int idK = kurs.getKursid();
+						%>
 						<tr>
-							<td><c:out value="${kurs.naziv}" /></td>
-							<td><input type="submit" class="btn btn-info" name="${kurs.kursid}" value="Prikazi" /></td>
-							<td><input type="submit" class="btn btn-success" value="Prijavi se" /></td>
+							<td><%=nazivK %></td>
+							<td><input type="submit" class="btn btn-info" name="<%=idK %>" value="Prikazi" /></td>
+							<%
+							if (logged && user.isPolaznik()){
+								User myUser = user.getMyUser();
+								if (myUser != null){
+									for (Kurs k : myUser.getKurs4()){
+										if (k.getKursid() == kurs.getKursid()){
+											disabled = true;
+											break;
+										}
+									}
+								}
+							}else{
+								disabled = true;
+							}
+							String dis = disabled ? "disabled" : "";
+							%>
+							<td><input type="submit" <%=dis %> class="btn btn-success" name="<%=idK %>" value="Prijavi se" /></td>
 						</tr>
-					</c:forEach>
+						<%
+					}
+					%>
 				</tbody>
 			</table>
 		</form>

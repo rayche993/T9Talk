@@ -76,20 +76,23 @@ public class AddPolaznikServlet extends HttpServlet {
 		
 		String poruka = null;
 		if (greske.size() == 0){
-			if ((user = logBean.registerUser(ime, prezime, username, password, "Predavac")) != null){
+			if ((user = logBean.registerUser(ime, prezime, username, password, "Polaznik")) != null){
 				path = "/index.jsp";
 				
-				try {
-					ic = new InitialContext();
-					userBean = (UserBeanRemote) ic.lookup("java:global/PrisEAR/PrisEJB/UserBean!beans.UserBeanRemote");
-					userBean.setMyUser(user);
-					request.getSession().setAttribute("user", userBean);
-				} catch (NamingException e) {
-					e.printStackTrace();
+				if ((user = logBean.login(username, password)) != null){
+					try {
+						ic = new InitialContext();
+						userBean = (UserBeanRemote) ic.lookup("java:global/PrisEAR/PrisEJB/UserBean!beans.UserBeanRemote");
+						userBean.setMyUser(user);
+						
+						request.getSession().setAttribute("user", userBean);
+					} catch (NamingException e) {
+						e.printStackTrace();
+					}
 				}
 			}else{
 				path = "/register.jsp";
-				poruka = "Neuspesno registrovan predavac!";
+				poruka = "Neuspesno registrovan polaznik!";
 				request.setAttribute("poruka", poruka);
 			}
 		}else{
@@ -97,11 +100,10 @@ public class AddPolaznikServlet extends HttpServlet {
 			request.setAttribute("ime", ime);
 			request.setAttribute("prezime", prezime);
 			request.setAttribute("username", username);
+			request.setAttribute("greske", greske);
 		}
 		
 		rd = getServletContext().getRequestDispatcher(path);
-		
-		request.setAttribute("greske", greske);
 		rd.forward(request, response);
 	}
 }

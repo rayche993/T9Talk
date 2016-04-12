@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.KursBeanLocal;
 import beans.UserBeanLocal;
+import beans.UserBeanRemote;
 import model.Komentar;
 import model.Kurs;
+import model.User;
 
 /**
  * Servlet implementation class KursServlet
@@ -40,7 +42,6 @@ public class KursServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	//OVDE REALIZUJ I PRIJAVU NA KURS
 	@EJB
 	KursBeanLocal kursBean;
 	
@@ -50,12 +51,20 @@ public class KursServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Enumeration<String> imena = request.getParameterNames();
-		int prikazId = -1;
+		int prikazID = -1;
+		int prijavaID = -1;
 		while(imena.hasMoreElements()){
 			String ime = imena.nextElement();
 			if (request.getParameter(ime).equals("Prikazi")){
 				try{
-					prikazId = Integer.parseInt(ime);
+					prikazID = Integer.parseInt(ime);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			if (request.getParameter(ime).equals("Prijavi se")){
+				try{
+					prijavaID = Integer.parseInt(ime);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -64,8 +73,8 @@ public class KursServlet extends HttpServlet {
 		
 		RequestDispatcher rd = null;
 		
-		if (prikazId > -1){
-			Kurs kurs = kursBean.getKurs(prikazId);
+		if (prikazID > -1){
+			Kurs kurs = kursBean.getKurs(prikazID);
 			List<Komentar> komentari = kursBean.getKomentari(kurs);
 			
 			request.getSession().setAttribute("kurs", kurs);
@@ -73,6 +82,22 @@ public class KursServlet extends HttpServlet {
 			
 			rd = getServletContext().getRequestDispatcher("/kurs.jsp");
 		}else{
+			rd = getServletContext().getRequestDispatcher("/index.jsp");
+		}
+		
+		String prijava = "";
+		
+		if (prijavaID > -1){
+			Kurs kurs = kursBean.getKurs(prijavaID);
+			UserBeanRemote userBean = (UserBeanRemote) request.getSession().getAttribute("user");
+			User myUser = null;
+			if ((myUser = kursBean.subscribeUser(userBean.getMyUser(), kurs)) != null){
+				userBean.setMyUser(myUser);
+				prijava = "Uspesno ste se prijavili " + myUser.getUsername() + " na kurs " + kurs.getNaziv();
+			}else
+				prijava = "Neuspesno ste se prijavili";
+			
+			request.setAttribute("prijava", prijava);
 			rd = getServletContext().getRequestDispatcher("/index.jsp");
 		}
 		

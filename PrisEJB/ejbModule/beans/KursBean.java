@@ -33,6 +33,7 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     	kurs.setNaziv(naziv);
     	kurs.setIshod(ishod);
     	kurs.setOpis(opis);
+    	kurs.setUsers2(new ArrayList<User>());
     	
     	try{
     		em.persist(kurs);
@@ -45,12 +46,10 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     }
     
     public User subscribeUser(User u, Kurs k){
-    	k.getUsers2().add(u);
     	u.getKurs4().add(k);
     	
     	try{
-    		em.merge(k);
-    		em.merge(u);
+    		u = em.merge(u);
     	}catch(Exception e){
     		e.printStackTrace();
     		return null;
