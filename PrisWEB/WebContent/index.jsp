@@ -1,3 +1,4 @@
+<%@page import="model.Ocena"%>
 <%@page import="model.User"%>
 <%@page import="javax.naming.NamingException"%>
 <%@page import="beans.KursBeanLocal"%>
@@ -12,6 +13,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="starrating/jquery.rating.css">
+<script src="starrating/jquery.js"></script>
+<script src="starrating/jquery.rating.js"></script>
+<script src="starrating/jquery.MetaData.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -23,16 +28,16 @@
 	<div class="container">
 		<%
 		List<Kurs> courses = (List<Kurs>)request.getAttribute("kursevi");
-		if (courses == null){
-			InitialContext ic = null;
-			KursBeanLocal kursBean = null;
-			try {
-				ic = new InitialContext();
-				kursBean = (KursBeanLocal) ic.lookup("java:global/PrisEAR/PrisEJB/KursBean!beans.KursBeanLocal");
-				courses = kursBean.getKursevi();
-			} catch (NamingException e) {
-				e.printStackTrace();
-			}
+		KursBeanLocal kursBean = null;
+		InitialContext ic = null;
+		try {
+			ic = new InitialContext();
+			kursBean = (KursBeanLocal) ic.lookup("java:global/PrisEAR/PrisEJB/KursBean!beans.KursBeanLocal");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		if (courses == null && kursBean != null){
+			courses = kursBean.getKursevi();
 		}
 		boolean logged = false;
 		%>
@@ -106,6 +111,7 @@
 				<thead>
 					<tr>
 						<th>Naziv</th>
+						<th>Ocena</th>
 						<th>Prikaz</th>
 						<th>Prijava</th>
 					</tr>
@@ -119,7 +125,6 @@
 						%>
 						<tr>
 							<td><%=nazivK %></td>
-							<td><input type="submit" class="btn btn-info" name="<%=idK %>" value="Prikazi" /></td>
 							<%
 							if (logged && user.isPolaznik()){
 								User myUser = user.getMyUser();
@@ -134,8 +139,59 @@
 							}else{
 								disabled = true;
 							}
+							float sum = 0;
+							float avg = 0;
+							List<Ocena> ocene = kursBean.getOcene(kurs);
+							for (Ocena o : ocene){
+								sum += Float.parseFloat(o.getOpis());
+							}
+							int size = ocene.size();
+							if (size > 0)
+								avg = sum / size;
+							else
+								avg = 0;
+							
+							String[] arr = new String[20];
+							int j = 0;
+							for (int i = j; i<arr.length; i++){
+								if (avg >= ((i+1) * 0.25) - 0.125 && avg < ((i+1)*0.25) + 0.125){
+									arr[i] = "checked";
+									j = i + 1;
+									break;
+								}else
+									arr[i] = new String("");
+							}
+							
+							while (j < arr.length){
+								arr[j] = new String("");
+								j++;
+							}
 							String dis = disabled ? "disabled" : "";
+							String starDis = "disabled";
 							%>
+							<td>
+								<input name="star2" type="radio" value="0.25" class="star {split:4}" <%=starDis %> <%=arr[0] %> />
+								<input name="star2" type="radio" value="0.5" class="star {split:4}" <%=starDis %> <%=arr[1] %> />
+								<input name="star2" type="radio" value="0.75" class="star {split:4}" <%=starDis %> <%=arr[2] %> />
+								<input name="star2" type="radio" value="1" class="star {split:4}" <%=starDis %> <%=arr[3] %> />
+								<input name="star2" type="radio" value="1.25" class="star {split:4}" <%=starDis %> <%=arr[4] %> />
+								<input name="star2" type="radio" value="1.5" class="star {split:4}" <%=starDis %> <%=arr[5] %> />
+								<input name="star2" type="radio" value="1.75" class="star {split:4}" <%=starDis %> <%=arr[6] %> />
+								<input name="star2" type="radio" value="2" class="star {split:4}" <%=starDis %> <%=arr[7] %> />
+								<input name="star2" type="radio" value="2.25" class="star {split:4}" <%=starDis %> <%=arr[8] %> />
+								<input name="star2" type="radio" value="2.5" class="star {split:4}" <%=starDis %> <%=arr[9] %> />
+								<input name="star2" type="radio" value="2.75" class="star {split:4}" <%=starDis %> <%=arr[10] %> />
+								<input name="star2" type="radio" value="3" class="star {split:4}" <%=starDis %> <%=arr[11] %> />
+								<input name="star2" type="radio" value="3.25" class="star {split:4}" <%=starDis %> <%=arr[12] %> />
+								<input name="star2" type="radio" value="3.5" class="star {split:4}" <%=starDis %> <%=arr[13] %> />
+								<input name="star2" type="radio" value="3.75" class="star {split:4}" <%=starDis %> <%=arr[14] %> />
+								<input name="star2" type="radio" value="4" class="star {split:4}" <%=starDis %> <%=arr[15] %> />
+								<input name="star2" type="radio" value="4.25" class="star {split:4}" <%=starDis %> <%=arr[16] %> />
+								<input name="star2" type="radio" value="4.5" class="star {split:4}" <%=starDis %> <%=arr[17] %> />
+								<input name="star2" type="radio" value="4.75" class="star {split:4}" <%=starDis %> <%=arr[18] %> />
+								<input name="star2" type="radio" value="5" class="star {split:4}" <%=starDis %> <%=arr[19] %> />
+							</td>
+							<td><input type="submit" class="btn btn-info" name="<%=idK %>" value="Prikazi" /></td>
 							<td><input type="submit" <%=dis %> class="btn btn-success" name="<%=idK %>" value="Prijavi se" /></td>
 						</tr>
 						<%

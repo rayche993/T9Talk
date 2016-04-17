@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private List<Kurs> kurs1;
 
 	//bi-directional many-to-many association to Kurs
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy="users2", cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="users2")
 	private List<Kurs> kurs2;
 
 	//bi-directional many-to-one association to Lekcija
@@ -76,6 +76,10 @@ public class User implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="ROLEID")
 	private UserRole userrole;
+
+	//bi-directional many-to-one association to Ocena
+	@OneToMany(mappedBy="user")
+	private List<Ocena> ocenas;
 
 	public User() {
 	}
@@ -224,6 +228,28 @@ public class User implements Serializable {
 
 	public void setUserrole(UserRole userrole) {
 		this.userrole = userrole;
+	}
+
+	public List<Ocena> getOcenas() {
+		return this.ocenas;
+	}
+
+	public void setOcenas(List<Ocena> ocenas) {
+		this.ocenas = ocenas;
+	}
+
+	public Ocena addOcena(Ocena ocena) {
+		getOcenas().add(ocena);
+		ocena.setUser(this);
+
+		return ocena;
+	}
+
+	public Ocena removeOcena(Ocena ocena) {
+		getOcenas().remove(ocena);
+		ocena.setUser(null);
+
+		return ocena;
 	}
 
 }

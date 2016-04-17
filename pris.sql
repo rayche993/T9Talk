@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2016 at 04:58 PM
+-- Generation Time: Apr 17, 2016 at 02:25 AM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -34,28 +34,18 @@ CREATE TABLE IF NOT EXISTS `komentar` (
   PRIMARY KEY (`KOMENTARID`),
   KEY `FK_RELATIONSHIP_11` (`USERID`),
   KEY `FK_RELATIONSHIP_14` (`KURSID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `komentar`
 --
 
 INSERT INTO `komentar` (`KOMENTARID`, `KURSID`, `USERID`, `OPIS`) VALUES
-(1, 1, 1, 'Ovo je sjajno!'),
-(2, 1, 1, 'Moze to mnogo bolje'),
-(3, 1, 1, 'Zezanje je pravo!'),
-(4, 2, 1, 'Moze i ovde'),
-(5, 1, 1, 'Da ne kazem divno!'),
-(6, 2, 1, 'Kako ne'),
-(7, 2, 1, 'Ovde samo i moze :D'),
-(8, 1, 2, 'Aj i ja da kazem koju pametnu'),
-(9, 2, 2, 'I ovde hocu.'),
-(10, 1, 1, 'Ne moze'),
-(11, 2, 1, 'Pali decko'),
-(12, 1, 3, 'lozite se previse'),
-(13, 2, 3, 'I ovde'),
-(14, 2, 2, 'ajoj'),
-(15, 5, 2, 'Prvi komentar!');
+(1, 1, 1, 'koMentar NEKI'),
+(2, 1, 4, 'Dodajem komentar'),
+(3, 1, 4, 'Komentarcic'),
+(4, 1, 4, 'hehe'),
+(5, 1, 4, 'idemo radimoooo');
 
 -- --------------------------------------------------------
 
@@ -69,23 +59,14 @@ CREATE TABLE IF NOT EXISTS `kurs` (
   `OPIS` varchar(255) NOT NULL,
   `ISHOD` varchar(255) NOT NULL,
   PRIMARY KEY (`KURSID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `kurs`
 --
 
 INSERT INTO `kurs` (`KURSID`, `NAZIV`, `OPIS`, `ISHOD`) VALUES
-(1, 'Engleski jezik', 'Engleski je to\r\nda\r\nda', 'Naucicu ga\r\nbre'),
-(2, 'Italijanski jezik', 'Mafija\r\nsve\r\nto', 'sve\r\nu\r\nzatvor'),
-(3, 'Spanski jezik', 'spanci\r\nnadal\r\nitd', 'spanske\r\nserije'),
-(4, 'Ruski jezik', 'braca\r\nrusi', 'vodka\r\njeste'),
-(5, 'Nemacki jezik', 'zezanje\r\nje\r\ntaj jezik', 'sve\r\nte duge\r\nreci'),
-(6, 'Kineski jezik', 'Neam pojma \r\nsta je to', 'boze\r\nmili'),
-(7, 'Svedski jezik', 'kao nemacki\r\nslicno', 'nesto\r\nbas\r\nslicno'),
-(8, 'Bugarski jezik', 'Noz u\r\nledja', 'nam zaboli\r\nuvek'),
-(9, 'Madjarski jezik', 'par psovki\r\nznam', 'i to \r\nje to'),
-(10, 'Portugalski jezik', 'pljunes\r\ni\r\nafrika tu', 'kafic\r\nbleja');
+(1, 'Engleski jezik', 'englezi\r\nbarabe', 'i te\r\nkako');
 
 -- --------------------------------------------------------
 
@@ -103,6 +84,32 @@ CREATE TABLE IF NOT EXISTS `lekcija` (
   KEY `FK_RELATIONSHIP_19` (`USERID`),
   KEY `FK_RELATIONSHIP_5` (`KURSID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ocena`
+--
+
+CREATE TABLE IF NOT EXISTS `ocena` (
+  `OCENAID` int(11) NOT NULL AUTO_INCREMENT,
+  `USERID` int(11) NOT NULL,
+  `KURSID` int(11) NOT NULL,
+  `OPIS` varchar(255) NOT NULL,
+  `DATUM` date NOT NULL,
+  PRIMARY KEY (`OCENAID`),
+  KEY `FK_RELATIONSHIP_20` (`USERID`),
+  KEY `FK_RELATIONSHIP_21` (`KURSID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `ocena`
+--
+
+INSERT INTO `ocena` (`OCENAID`, `USERID`, `KURSID`, `OPIS`, `DATUM`) VALUES
+(1, 3, 1, '5', '2016-04-14'),
+(3, 3, 1, '3.5', '2016-04-16'),
+(12, 4, 1, '2.75', '2016-04-17');
 
 -- --------------------------------------------------------
 
@@ -174,6 +181,14 @@ CREATE TABLE IF NOT EXISTS `prijavljen` (
   KEY `FK_RELATIONSHIP_18` (`KURSID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `prijavljen`
+--
+
+INSERT INTO `prijavljen` (`USERID`, `KURSID`) VALUES
+(3, 1),
+(4, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -212,10 +227,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`USERID`, `ROLEID`, `IME`, `PREZIME`, `USERNAME`, `PASSWORD`) VALUES
 (1, 1, 'Pris', 'Pris', 'admin', 'admin'),
-(2, 3, 'Rajko', 'Radonic', 'rayche', '123'),
-(3, 2, 'Neki', 'Lik', 'neki_lik', '123'),
-(4, 2, 'Jeste', 'Onje', 'predavac', '123'),
-(5, 3, 'dobar', 'lik', 'dobar_lik', '123');
+(2, 2, 'Rajko', 'Radonic', 'rayche', '123'),
+(3, 3, 'Marko', 'Ljubic', 'rouz', '123'),
+(4, 3, 'Neki', 'Lik', 'neki_lik', '123'),
+(5, 3, 'Bojan', 'Pijak', 'boki', '123');
 
 -- --------------------------------------------------------
 
@@ -255,6 +270,13 @@ ALTER TABLE `komentar`
 ALTER TABLE `lekcija`
   ADD CONSTRAINT `FK_RELATIONSHIP_19` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`),
   ADD CONSTRAINT `FK_RELATIONSHIP_5` FOREIGN KEY (`KURSID`) REFERENCES `kurs` (`KURSID`);
+
+--
+-- Constraints for table `ocena`
+--
+ALTER TABLE `ocena`
+  ADD CONSTRAINT `FK_RELATIONSHIP_20` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_21` FOREIGN KEY (`KURSID`) REFERENCES `kurs` (`KURSID`);
 
 --
 -- Constraints for table `odgovor`

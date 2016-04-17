@@ -5,6 +5,7 @@
 		<class>model.Komentar</class>
 		<class>model.Kurs</class>
 		<class>model.Lekcija</class>
+		<class>model.Ocena</class>
 		<class>model.Odgovor</class>
 		<class>model.Pitanje</class>
 		<class>model.Polaze</class>

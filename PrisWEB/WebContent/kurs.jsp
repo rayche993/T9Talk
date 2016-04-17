@@ -1,3 +1,9 @@
+<%@page import="model.Ocena"%>
+<%@page import="java.util.List"%>
+<%@page import="model.User"%>
+<%@page import="javax.naming.NamingException"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="beans.KursBeanLocal"%>
 <%@page import="model.Kurs"%>
 <%@page import="beans.UserBeanRemote"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -6,6 +12,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="starrating/jquery.rating.css">
+<script src="starrating/jquery.js"></script>
+<script src="starrating/jquery.rating.js"></script>
+<script src="starrating/jquery.MetaData.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -18,6 +28,14 @@
 		<%
 		UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 		Kurs kurs = (Kurs)request.getSession().getAttribute("kurs");
+		KursBeanLocal kursBean = null;
+		InitialContext ic = null;
+		try {
+			ic = new InitialContext();
+			kursBean = (KursBeanLocal) ic.lookup("java:global/PrisEAR/PrisEJB/KursBean!beans.KursBeanLocal");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 		boolean logged = false;
 		if (user != null){
 			logged = true;
@@ -62,8 +80,38 @@
 				<%
 			}
 			if (kurs != null){
+				String starDis = (String) request.getAttribute("starDis");
+				String disSub = (String) request.getAttribute("disSub");
+				String[] arr = (String[]) request.getAttribute("arr");
 			%>
-				<h2>${kurs.naziv}</h2><br>
+				
+				<form action="/PrisWEB/KursServlet" method="post" class="form-inline">
+					<div class="form-group">
+						<h2>${kurs.naziv}</h2>
+						<input name="star2" type="radio" value="0.25" class="star {split:4}" <%=starDis %> <%=arr[0] %> />
+						<input name="star2" type="radio" value="0.5" class="star {split:4}" <%=starDis %> <%=arr[1] %> />
+						<input name="star2" type="radio" value="0.75" class="star {split:4}" <%=starDis %> <%=arr[2] %> />
+						<input name="star2" type="radio" value="1" class="star {split:4}" <%=starDis %> <%=arr[3] %> />
+						<input name="star2" type="radio" value="1.25" class="star {split:4}" <%=starDis %> <%=arr[4] %> />
+						<input name="star2" type="radio" value="1.5" class="star {split:4}" <%=starDis %> <%=arr[5] %> />
+						<input name="star2" type="radio" value="1.75" class="star {split:4}" <%=starDis %> <%=arr[6] %> />
+						<input name="star2" type="radio" value="2" class="star {split:4}" <%=starDis %> <%=arr[7] %> />
+						<input name="star2" type="radio" value="2.25" class="star {split:4}" <%=starDis %> <%=arr[8] %> />
+						<input name="star2" type="radio" value="2.5" class="star {split:4}" <%=starDis %> <%=arr[9] %> />
+						<input name="star2" type="radio" value="2.75" class="star {split:4}" <%=starDis %> <%=arr[10] %> />
+						<input name="star2" type="radio" value="3" class="star {split:4}" <%=starDis %> <%=arr[11] %> />
+						<input name="star2" type="radio" value="3.25" class="star {split:4}" <%=starDis %> <%=arr[12] %> />
+						<input name="star2" type="radio" value="3.5" class="star {split:4}" <%=starDis %> <%=arr[13] %> />
+						<input name="star2" type="radio" value="3.75" class="star {split:4}" <%=starDis %> <%=arr[14] %> />
+						<input name="star2" type="radio" value="4" class="star {split:4}" <%=starDis %> <%=arr[15] %> />
+						<input name="star2" type="radio" value="4.25" class="star {split:4}" <%=starDis %> <%=arr[16] %> />
+						<input name="star2" type="radio" value="4.5" class="star {split:4}" <%=starDis %> <%=arr[17] %> />
+						<input name="star2" type="radio" value="4.75" class="star {split:4}" <%=starDis %> <%=arr[18] %> />
+						<input name="star2" type="radio" value="5" class="star {split:4}" <%=starDis %> <%=arr[19] %> />
+						&nbsp;&nbsp;
+						<input type="submit" class="btn btn-success" <%=starDis %> name="glasaj" value="Glasaj">
+					</div>
+				</form>
 				<h4>Opis</h4>
 				<p>${kurs.opis}</p><br>
 				<h4>Ocekivani ishod</h4>

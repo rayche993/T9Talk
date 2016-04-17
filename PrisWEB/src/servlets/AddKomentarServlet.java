@@ -16,6 +16,8 @@ import beans.UserBeanLocal;
 import beans.UserBeanRemote;
 import model.Komentar;
 import model.Kurs;
+import model.Ocena;
+import model.User;
 
 /**
  * Servlet implementation class AddKomentarServlet
@@ -62,6 +64,70 @@ public class AddKomentarServlet extends HttpServlet {
 			request.setAttribute("komentari", komentari);
 		}else
 			System.out.println("kurs je null ili user nije ulogovan");
+		
+		String starDis = new String("");
+		String disSub = new String("");
+		String[] arr = new String[20];
+		
+		boolean disabledSub = false;
+		boolean starEnabled = false;
+		boolean logged = userBean != null;
+		
+		if (logged){
+			if (userBean.isPolaznik()){
+				User myUser = userBean.getMyUser();
+				for (Kurs k : myUser.getKurs4()){
+					if (k.getKursid() == kurs.getKursid()){
+						disabledSub = true;
+						starEnabled = true;
+						break;
+					}
+				}
+			}
+		}else{
+			disabledSub = true;
+			starEnabled = false;
+		}
+		float sum = 0;
+		float avg = 0;
+		boolean glasao = false;
+		List<Ocena> ocene = kursBean.getOcene(kurs);
+		for (Ocena o : ocene){
+			sum += Float.parseFloat(o.getOpis());
+			if (logged)
+				if (o.getUser().getUserid() == userBean.getMyUser().getUserid())
+					glasao = true;
+		}
+		
+		int size = ocene.size();
+		if (size > 0)
+			avg = sum / size;
+		else
+			avg = 0;
+		
+		arr = new String[20];
+		int j = 0;
+		
+		for (int i = j; i<arr.length; i++){
+			if (avg >= ((i+1) * 0.25) - 0.125 && avg < ((i+1)*0.25) + 0.125){
+				arr[i] = "checked";
+				j = i + 1;
+				break;
+			}else
+				arr[i] = new String("");
+		}
+		
+		while (j < arr.length){
+			arr[j] = new String("");
+			j++;
+		}
+		
+		disSub = disabledSub ? "disabled" : "";
+		starDis = !starEnabled || glasao ? "disabled" : "";
+		
+		request.setAttribute("arr", arr);
+		request.setAttribute("disSub", disSub);
+		request.setAttribute("starDis", starDis);
 		
 		request.setAttribute("poruka", poruka);
 		rd.forward(request, response);

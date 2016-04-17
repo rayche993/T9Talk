@@ -63,8 +63,12 @@ public class Kurs implements Serializable {
 	private List<User> users3;
 
 	//bi-directional many-to-many association to User
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy="kurs4", cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="kurs4")
 	private List<User> users4;
+
+	//bi-directional many-to-one association to Ocena
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="kur")
+	private List<Ocena> ocenas;
 
 	public Kurs() {
 	}
@@ -175,6 +179,28 @@ public class Kurs implements Serializable {
 
 	public void setUsers4(List<User> users4) {
 		this.users4 = users4;
+	}
+
+	public List<Ocena> getOcenas() {
+		return this.ocenas;
+	}
+
+	public void setOcenas(List<Ocena> ocenas) {
+		this.ocenas = ocenas;
+	}
+
+	public Ocena addOcena(Ocena ocena) {
+		getOcenas().add(ocena);
+		ocena.setKur(this);
+
+		return ocena;
+	}
+
+	public Ocena removeOcena(Ocena ocena) {
+		getOcenas().remove(ocena);
+		ocena.setKur(null);
+
+		return ocena;
 	}
 
 }
