@@ -1,3 +1,4 @@
+<%@page import="model.Kurs"%>
 <%@page import="beans.UserBeanRemote"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -15,6 +16,9 @@
 	<div class="container">
 		<%
 		UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
+		Kurs kurs = (Kurs) request.getSession().getAttribute("kurs");
+		if (kurs != null)
+			request.getSession().removeAttribute("kurs");
 		boolean logged = false;
 		if (user != null){
 			logged = true;

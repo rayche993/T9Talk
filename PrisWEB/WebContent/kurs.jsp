@@ -1,3 +1,5 @@
+<%@page import="model.Lekcija"%>
+<%@page import="model.Komentar"%>
 <%@page import="model.Ocena"%>
 <%@page import="java.util.List"%>
 <%@page import="model.User"%>
@@ -86,48 +88,109 @@
 			%>
 				
 				<form action="/PrisWEB/KursServlet" method="post" class="form-inline">
-					<div class="form-group">
-						<h2>${kurs.naziv}</h2>
-						<input name="star2" type="radio" value="0.25" class="star {split:4}" <%=starDis %> <%=arr[0] %> />
-						<input name="star2" type="radio" value="0.5" class="star {split:4}" <%=starDis %> <%=arr[1] %> />
-						<input name="star2" type="radio" value="0.75" class="star {split:4}" <%=starDis %> <%=arr[2] %> />
-						<input name="star2" type="radio" value="1" class="star {split:4}" <%=starDis %> <%=arr[3] %> />
-						<input name="star2" type="radio" value="1.25" class="star {split:4}" <%=starDis %> <%=arr[4] %> />
-						<input name="star2" type="radio" value="1.5" class="star {split:4}" <%=starDis %> <%=arr[5] %> />
-						<input name="star2" type="radio" value="1.75" class="star {split:4}" <%=starDis %> <%=arr[6] %> />
-						<input name="star2" type="radio" value="2" class="star {split:4}" <%=starDis %> <%=arr[7] %> />
-						<input name="star2" type="radio" value="2.25" class="star {split:4}" <%=starDis %> <%=arr[8] %> />
-						<input name="star2" type="radio" value="2.5" class="star {split:4}" <%=starDis %> <%=arr[9] %> />
-						<input name="star2" type="radio" value="2.75" class="star {split:4}" <%=starDis %> <%=arr[10] %> />
-						<input name="star2" type="radio" value="3" class="star {split:4}" <%=starDis %> <%=arr[11] %> />
-						<input name="star2" type="radio" value="3.25" class="star {split:4}" <%=starDis %> <%=arr[12] %> />
-						<input name="star2" type="radio" value="3.5" class="star {split:4}" <%=starDis %> <%=arr[13] %> />
-						<input name="star2" type="radio" value="3.75" class="star {split:4}" <%=starDis %> <%=arr[14] %> />
-						<input name="star2" type="radio" value="4" class="star {split:4}" <%=starDis %> <%=arr[15] %> />
-						<input name="star2" type="radio" value="4.25" class="star {split:4}" <%=starDis %> <%=arr[16] %> />
-						<input name="star2" type="radio" value="4.5" class="star {split:4}" <%=starDis %> <%=arr[17] %> />
-						<input name="star2" type="radio" value="4.75" class="star {split:4}" <%=starDis %> <%=arr[18] %> />
-						<input name="star2" type="radio" value="5" class="star {split:4}" <%=starDis %> <%=arr[19] %> />
-						&nbsp;&nbsp;
-						<input type="submit" class="btn btn-success" <%=starDis %> name="glasaj" value="Glasaj">
-					</div>
+					<h2>${kurs.naziv}&nbsp;&nbsp;
+						<div class="form-group">
+							<input name="star2" type="radio" value="0.25" class="star {split:4}" <%=starDis %> <%=arr[0] %> />
+							<input name="star2" type="radio" value="0.5" class="star {split:4}" <%=starDis %> <%=arr[1] %> />
+							<input name="star2" type="radio" value="0.75" class="star {split:4}" <%=starDis %> <%=arr[2] %> />
+							<input name="star2" type="radio" value="1" class="star {split:4}" <%=starDis %> <%=arr[3] %> />
+							<input name="star2" type="radio" value="1.25" class="star {split:4}" <%=starDis %> <%=arr[4] %> />
+							<input name="star2" type="radio" value="1.5" class="star {split:4}" <%=starDis %> <%=arr[5] %> />
+							<input name="star2" type="radio" value="1.75" class="star {split:4}" <%=starDis %> <%=arr[6] %> />
+							<input name="star2" type="radio" value="2" class="star {split:4}" <%=starDis %> <%=arr[7] %> />
+							<input name="star2" type="radio" value="2.25" class="star {split:4}" <%=starDis %> <%=arr[8] %> />
+							<input name="star2" type="radio" value="2.5" class="star {split:4}" <%=starDis %> <%=arr[9] %> />
+							<input name="star2" type="radio" value="2.75" class="star {split:4}" <%=starDis %> <%=arr[10] %> />
+							<input name="star2" type="radio" value="3" class="star {split:4}" <%=starDis %> <%=arr[11] %> />
+							<input name="star2" type="radio" value="3.25" class="star {split:4}" <%=starDis %> <%=arr[12] %> />
+							<input name="star2" type="radio" value="3.5" class="star {split:4}" <%=starDis %> <%=arr[13] %> />
+							<input name="star2" type="radio" value="3.75" class="star {split:4}" <%=starDis %> <%=arr[14] %> />
+							<input name="star2" type="radio" value="4" class="star {split:4}" <%=starDis %> <%=arr[15] %> />
+							<input name="star2" type="radio" value="4.25" class="star {split:4}" <%=starDis %> <%=arr[16] %> />
+							<input name="star2" type="radio" value="4.5" class="star {split:4}" <%=starDis %> <%=arr[17] %> />
+							<input name="star2" type="radio" value="4.75" class="star {split:4}" <%=starDis %> <%=arr[18] %> />
+							<input name="star2" type="radio" value="5" class="star {split:4}" <%=starDis %> <%=arr[19] %> />
+							&nbsp;&nbsp;
+							<input type="submit" class="btn btn-success" <%=starDis %> name="glasaj" value="Glasaj">
+						</div>
+					</h2>
 				</form>
 				<h4>Opis</h4>
 				<p>${kurs.opis}</p><br>
 				<h4>Ocekivani ishod</h4>
 				<p>${kurs.ishod}</p><br>
 				
+				<h2>Lekcije &nbsp;&nbsp;
+				<%
+				if (logged){
+					if (user.isPredavac()){
+						%>
+						<a class="btn btn-success" href="add-lekcija.jsp">Dodaj Lekciju</a> <br>
+						<%
+					}
+				}
+				%>
+				</h2>
+				<form action="/PrisWEB/AddLekcijaServlet" method="post">
+					<table class="table table-hover table-bordered">
+						<thead>
+							<tr>
+								<th>Naziv</th>
+								<th>Prikazi</th>
+								<% 
+								if (user != null){
+									if (user.isPredavac()){
+									%>							
+										<th>Izmeni</th>
+									<%
+									}
+								}
+								%>
+							</tr>
+						</thead>
+						<tbody>
+							<%
+							for (Lekcija lekcija : (List<Lekcija>)request.getAttribute("lekcije")){
+							%>
+							<tr>
+								<td><%=lekcija.getNaziv() %></td>
+								<td><input type="submit" class="btn btn-info" value="Prikazi" name="<%=lekcija.getLekcijaid() %>"></td>
+								<%
+								if (user != null){
+									if (user.isPredavac()){
+										%>
+										<td><input type="submit" class="btn btn-warning" value="Izmeni" name="<%=lekcija.getLekcijaid() %>"></td>
+										<%
+									}
+								}
+								%>
+							</tr>
+							<%
+							}
+							%>
+						</tbody>
+					</table>
+				</form>
+				
 				<h2>Komentari</h2>
-				
+				<%
+				List<Komentar> komentari = (List<Komentar>)request.getAttribute("komentari");
+				if (komentari == null){
+					komentari = kursBean.getKomentari(kurs);
+				}
+				%>
 				<table class="table table-hover">
-					<c:forEach items="${komentari}" var="komentar">
+					<% 
+					for (Komentar komentar : komentari){
+					%>
 					<tr>
-						<td>${komentar.user.username}  :</td>
-						<td>${komentar.opis}</td>
+						<td><%=komentar.getUser().getUsername() %> :</td>
+						<td><%=komentar.getOpis() %></td>
 					</tr>
-					</c:forEach>
+					<%
+					}
+					%>
 				</table>
-				
 				<%
 				if (logged){
 						%>

@@ -18,6 +18,8 @@ public class Lekcija implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int lekcijaid;
 
+	private String naziv;
+	
 	@Lob
 	private String text;
 
@@ -46,6 +48,14 @@ public class Lekcija implements Serializable {
 
 	public void setLekcijaid(int lekcijaid) {
 		this.lekcijaid = lekcijaid;
+	}
+	
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
 	}
 
 	public String getText() {

@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.KursBeanLocal;
+import beans.LekcijaBeanLocal;
 import beans.UserBeanLocal;
 import beans.UserBeanRemote;
 import model.Komentar;
 import model.Kurs;
+import model.Lekcija;
 import model.Ocena;
 import model.User;
 
@@ -35,22 +37,63 @@ public class KursServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    @EJB
+	KursBeanLocal kursBean;
+    
+    @EJB
+    LekcijaBeanLocal lekcijaBean;
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String tekst = request.getParameter("tekst");
+		String naziv = request.getParameter("naziv");
+		RequestDispatcher rd = null;
+		
+		int lekcijaID = -1;
+		
+		Enumeration<String> imena = request.getParameterNames();
+		
+		while(imena.hasMoreElements()){
+			String ime = imena.nextElement();
+			if (request.getParameter(ime).equals("Sacuvaj")){
+				try{
+					lekcijaID = Integer.parseInt(ime);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if (tekst == null || naziv == null)
+			rd = getServletContext().getRequestDispatcher("add-lekcija.jsp");
+		else{
+			if (lekcijaID > -1){
+				Lekcija lekcija = lekcijaBean.getLekcija(lekcijaID);
+				lekcija.setNaziv(naziv);
+				lekcija.setText(tekst);
+				lekcijaBean.updateLekcija(lekcija);
+				doPost(request, response);
+			}else{
+				Kurs kurs = (Kurs)request.getSession().getAttribute("kurs");
+				UserBeanRemote userBean = (UserBeanRemote) request.getSession().getAttribute("user");
+				if (kurs != null && userBean != null){
+					lekcijaBean.insertLekcija(naziv, tekst, userBean.getMyUser(), kurs);
+					doPost(request, response);
+				}else{
+					rd = getServletContext().getRequestDispatcher("index.jsp");
+					rd.forward(request, response);
+				}
+			}
+		}
 	}
-
-	@EJB
-	KursBeanLocal kursBean;
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Kurs kurs = null;
+		Kurs kurs = (Kurs)request.getSession().getAttribute("kurs");
 		RequestDispatcher rd = null;
 		UserBeanRemote userBean = (UserBeanRemote) request.getSession().getAttribute("user");
 		String glasaj = request.getParameter("glasaj");
@@ -61,22 +104,28 @@ public class KursServlet extends HttpServlet {
 			glasanje = glasaj.equals("Glasaj");
 		
 		if (!glasanje){
-			Enumeration<String> imena = request.getParameterNames();
+			boolean hasKurs = kurs != null;
 			
-			while(imena.hasMoreElements()){
-				String ime = imena.nextElement();
-				if (request.getParameter(ime).equals("Prikazi")){
-					try{
-						prikazID = Integer.parseInt(ime);
-					}catch(Exception e){
-						e.printStackTrace();
+			if (hasKurs){
+				prikazID = kurs.getKursid();
+			}else{
+				Enumeration<String> imena = request.getParameterNames();
+				
+				while(imena.hasMoreElements()){
+					String ime = imena.nextElement();
+					if (request.getParameter(ime).equals("Prikazi")){
+						try{
+							prikazID = Integer.parseInt(ime);
+						}catch(Exception e){
+							e.printStackTrace();
+						}
 					}
-				}
-				if (request.getParameter(ime).equals("Prijavi se")){
-					try{
-						prijavaID = Integer.parseInt(ime);
-					}catch(Exception e){
-						e.printStackTrace();
+					if (request.getParameter(ime).equals("Prijavi se")){
+						try{
+							prijavaID = Integer.parseInt(ime);
+						}catch(Exception e){
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -111,6 +160,7 @@ public class KursServlet extends HttpServlet {
 			}
 			
 			List<Komentar> komentari = kursBean.getKomentari(kurs);
+			List<Lekcija> lekcije = lekcijaBean.getLekcije(kurs);
 			
 			String starDis = new String("");
 			String disSub = new String("");
@@ -174,6 +224,7 @@ public class KursServlet extends HttpServlet {
 			
 			request.getSession().setAttribute("kurs", kurs);
 			request.setAttribute("komentari", komentari);
+			request.setAttribute("lekcije", lekcije);
 			request.setAttribute("arr", arr);
 			request.setAttribute("disSub", disSub);
 			request.setAttribute("starDis", starDis);

@@ -29,6 +29,9 @@
 		<%
 		List<Kurs> courses = (List<Kurs>)request.getAttribute("kursevi");
 		KursBeanLocal kursBean = null;
+		Kurs ku = (Kurs) request.getSession().getAttribute("kurs");
+		if (ku != null)
+			request.getSession().removeAttribute("kurs");
 		InitialContext ic = null;
 		try {
 			ic = new InitialContext();
