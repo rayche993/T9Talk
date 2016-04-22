@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2016 at 02:25 AM
+-- Generation Time: Apr 22, 2016 at 07:25 PM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -78,12 +78,21 @@ CREATE TABLE IF NOT EXISTS `lekcija` (
   `LEKCIJAID` int(11) NOT NULL AUTO_INCREMENT,
   `KURSID` int(11) NOT NULL,
   `USERID` int(11) NOT NULL,
+  `NAZIV` varchar(255) NOT NULL,
   `TEXT` text NOT NULL,
   `TIPLEKCIJE` int(11) NOT NULL,
   PRIMARY KEY (`LEKCIJAID`),
   KEY `FK_RELATIONSHIP_19` (`USERID`),
   KEY `FK_RELATIONSHIP_5` (`KURSID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `lekcija`
+--
+
+INSERT INTO `lekcija` (`LEKCIJAID`, `KURSID`, `USERID`, `NAZIV`, `TEXT`, `TIPLEKCIJE`) VALUES
+(1, 1, 2, 'Prva lekcija', '<p>hehe ovo ono</p>\r\n<p><em><strong>fancy</strong></em></p>\r\n<p style="text-align: center;">i ovo&nbsp;<img src="http://cdn.tinymce.com/4/plugins/emoticons/img/smiley-laughing.gif" alt="laughing" /></p>\r\n<p style="text-align: center;">&nbsp;</p>\r\n<p style="text-align: center;">&nbsp;</p>\r\n<p style="text-align: right;"><img src="http://cdn.tinymce.com/4/plugins/emoticons/img/smiley-cool.gif" alt="cool" /></p>\r\n<p style="text-align: center;"><iframe src="//www.youtube.com/embed/gnR6UCO09Eo" width="560" height="316" allowfullscreen="allowfullscreen"></iframe></p>\r\n<p style="text-align: left;">Maksa car</p>', 0),
+(2, 1, 2, 'Druga lekcija', '<p style="text-align: center;">JESTE</p>\r\n<p style="text-align: left;"><iframe src="//www.youtube.com/embed/gnR6UCO09Eo" width="560" height="316" allowfullscreen="allowfullscreen"></iframe> hehe</p>', 0);
 
 -- --------------------------------------------------------
 
@@ -100,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `ocena` (
   PRIMARY KEY (`OCENAID`),
   KEY `FK_RELATIONSHIP_20` (`USERID`),
   KEY `FK_RELATIONSHIP_21` (`KURSID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `ocena`
@@ -109,7 +118,10 @@ CREATE TABLE IF NOT EXISTS `ocena` (
 INSERT INTO `ocena` (`OCENAID`, `USERID`, `KURSID`, `OPIS`, `DATUM`) VALUES
 (1, 3, 1, '5', '2016-04-14'),
 (3, 3, 1, '3.5', '2016-04-16'),
-(12, 4, 1, '2.75', '2016-04-17');
+(12, 4, 1, '2.75', '2016-04-17'),
+(13, 5, 1, '2.5', '2016-04-19'),
+(14, 6, 1, '4.5', '2016-04-20'),
+(15, 7, 1, '1.5', '2016-04-20');
 
 -- --------------------------------------------------------
 
@@ -187,7 +199,10 @@ CREATE TABLE IF NOT EXISTS `prijavljen` (
 
 INSERT INTO `prijavljen` (`USERID`, `KURSID`) VALUES
 (3, 1),
-(4, 1);
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1);
 
 -- --------------------------------------------------------
 
@@ -219,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `PASSWORD` varchar(255) NOT NULL,
   PRIMARY KEY (`USERID`),
   KEY `FK_RELATIONSHIP_1` (`ROLEID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `user`
@@ -230,7 +245,9 @@ INSERT INTO `user` (`USERID`, `ROLEID`, `IME`, `PREZIME`, `USERNAME`, `PASSWORD`
 (2, 2, 'Rajko', 'Radonic', 'rayche', '123'),
 (3, 3, 'Marko', 'Ljubic', 'rouz', '123'),
 (4, 3, 'Neki', 'Lik', 'neki_lik', '123'),
-(5, 3, 'Bojan', 'Pijak', 'boki', '123');
+(5, 3, 'Bojan', 'Pijak', 'boki', '123'),
+(6, 3, 'Maksim', 'Lalic', 'maksa', '123'),
+(7, 3, 'Milan', 'Gataric', 'mico', '123');
 
 -- --------------------------------------------------------
 
