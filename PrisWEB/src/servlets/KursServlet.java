@@ -43,7 +43,7 @@ public class KursServlet extends HttpServlet {
     @EJB
     LekcijaBeanLocal lekcijaBean;
     
-	/**
+	/** 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -164,10 +164,12 @@ public class KursServlet extends HttpServlet {
 			
 			String starDis = new String("");
 			String disSub = new String("");
+			String disLekcija = new String("");
 			String[] arr = new String[20];
 			
 			boolean disabledSub = false;
 			boolean starEnabled = false;
+			boolean lekcijaEnable = false;
 			boolean logged = userBean != null;
 			
 			if (logged){
@@ -177,6 +179,7 @@ public class KursServlet extends HttpServlet {
 						if (k.getKursid() == kurs.getKursid()){
 							disabledSub = true;
 							starEnabled = true;
+							lekcijaEnable = true;
 							break;
 						}
 					}
@@ -184,6 +187,7 @@ public class KursServlet extends HttpServlet {
 			}else{
 				disabledSub = true;
 				starEnabled = false;
+				lekcijaEnable = false;
 			}
 			float sum = 0;
 			float avg = 0;
@@ -221,6 +225,7 @@ public class KursServlet extends HttpServlet {
 			
 			disSub = disabledSub ? "disabled" : "";
 			starDis = !starEnabled || glasao ? "disabled" : "";
+			disLekcija = !lekcijaEnable ? "disabled":"";
 			
 			request.getSession().setAttribute("kurs", kurs);
 			request.setAttribute("komentari", komentari);
@@ -228,6 +233,7 @@ public class KursServlet extends HttpServlet {
 			request.setAttribute("arr", arr);
 			request.setAttribute("disSub", disSub);
 			request.setAttribute("starDis", starDis);
+			request.setAttribute("disLekcija", disLekcija);
 			
 			rd = getServletContext().getRequestDispatcher("/kurs.jsp");
 		}
