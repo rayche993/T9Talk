@@ -76,6 +76,9 @@ public class AddLekcijaServlet extends HttpServlet {
 		
 		if (prikazID > -1){
 			lekcija = lekcijaBean.getLekcija(prikazID);
+			
+			request.setAttribute("lekcija", lekcija);
+			rd = getServletContext().getRequestDispatcher("/lekcija.jsp");
 		}else{
 			lekcija = lekcijaBean.getLekcija(editID);
 			

@@ -27,7 +27,7 @@
 </head>
 <body>
 	<div class="container">
-		<%
+		<% 
 		UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 		Kurs kurs = (Kurs)request.getSession().getAttribute("kurs");
 		KursBeanLocal kursBean = null;
@@ -84,6 +84,7 @@
 			if (kurs != null){
 				String starDis = (String) request.getAttribute("starDis");
 				String disSub = (String) request.getAttribute("disSub");
+				String disLekcija = (String) request.getAttribute("disLekcija");
 				String[] arr = (String[]) request.getAttribute("arr");
 			%>
 				
@@ -150,11 +151,19 @@
 						</thead>
 						<tbody>
 							<%
-							for (Lekcija lekcija : (List<Lekcija>)request.getAttribute("lekcije")){
+							if(request.getAttribute("lekcije") != null){
+								for (Lekcija lekcija : (List<Lekcija>)request.getAttribute("lekcije")){
 							%>
 							<tr>
 								<td><%=lekcija.getNaziv() %></td>
-								<td><input type="submit" class="btn btn-info" value="Prikazi" name="<%=lekcija.getLekcijaid() %>"></td>
+								<%
+								if (user != null){
+									if (user.isPredavac()){
+										disLekcija = "";
+									}
+								}
+								%>
+								<td><input type="submit" <%=disLekcija %> class="btn btn-info" value="Prikazi" name="<%=lekcija.getLekcijaid() %>"></td>
 								<%
 								if (user != null){
 									if (user.isPredavac()){
@@ -165,7 +174,8 @@
 								}
 								%>
 							</tr>
-							<%
+								<%
+							}
 							}
 							%>
 						</tbody>
