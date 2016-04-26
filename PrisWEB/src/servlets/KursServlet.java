@@ -192,7 +192,7 @@ public class KursServlet extends HttpServlet {
 			float sum = 0;
 			float avg = 0;
 			boolean glasao = false;
-			List<Ocena> ocene = kursBean.getOcene(kurs);
+			List<Ocena> ocene = kursBean.getOcene(kurs, false);
 			for (Ocena o : ocene){
 				sum += Float.parseFloat(o.getOpis());
 				if (logged)

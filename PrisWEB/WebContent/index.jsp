@@ -99,6 +99,7 @@
 						<option selected="<%=true%>" value="Naziv">Naziv</option>
 						<option value="Opis">Opis</option>
 						<option value="Ishod">Ishod</option>
+						<option value="Top_Kursevi">Top kursevi</option>
 					</select>
 				</div>
 				<div class="col-sm-9">
@@ -144,7 +145,7 @@
 							}
 							float sum = 0;
 							float avg = 0;
-							List<Ocena> ocene = kursBean.getOcene(kurs);
+							List<Ocena> ocene = kursBean.getOcene(kurs, true);
 							for (Ocena o : ocene){
 								sum += Float.parseFloat(o.getOpis());
 							}
@@ -173,26 +174,26 @@
 							String starDis = "disabled";
 							%>
 							<td>
-								<input name="star2" type="radio" value="0.25" class="star {split:4}" <%=starDis %> <%=arr[0] %> />
-								<input name="star2" type="radio" value="0.5" class="star {split:4}" <%=starDis %> <%=arr[1] %> />
-								<input name="star2" type="radio" value="0.75" class="star {split:4}" <%=starDis %> <%=arr[2] %> />
-								<input name="star2" type="radio" value="1" class="star {split:4}" <%=starDis %> <%=arr[3] %> />
-								<input name="star2" type="radio" value="1.25" class="star {split:4}" <%=starDis %> <%=arr[4] %> />
-								<input name="star2" type="radio" value="1.5" class="star {split:4}" <%=starDis %> <%=arr[5] %> />
-								<input name="star2" type="radio" value="1.75" class="star {split:4}" <%=starDis %> <%=arr[6] %> />
-								<input name="star2" type="radio" value="2" class="star {split:4}" <%=starDis %> <%=arr[7] %> />
-								<input name="star2" type="radio" value="2.25" class="star {split:4}" <%=starDis %> <%=arr[8] %> />
-								<input name="star2" type="radio" value="2.5" class="star {split:4}" <%=starDis %> <%=arr[9] %> />
-								<input name="star2" type="radio" value="2.75" class="star {split:4}" <%=starDis %> <%=arr[10] %> />
-								<input name="star2" type="radio" value="3" class="star {split:4}" <%=starDis %> <%=arr[11] %> />
-								<input name="star2" type="radio" value="3.25" class="star {split:4}" <%=starDis %> <%=arr[12] %> />
-								<input name="star2" type="radio" value="3.5" class="star {split:4}" <%=starDis %> <%=arr[13] %> />
-								<input name="star2" type="radio" value="3.75" class="star {split:4}" <%=starDis %> <%=arr[14] %> />
-								<input name="star2" type="radio" value="4" class="star {split:4}" <%=starDis %> <%=arr[15] %> />
-								<input name="star2" type="radio" value="4.25" class="star {split:4}" <%=starDis %> <%=arr[16] %> />
-								<input name="star2" type="radio" value="4.5" class="star {split:4}" <%=starDis %> <%=arr[17] %> />
-								<input name="star2" type="radio" value="4.75" class="star {split:4}" <%=starDis %> <%=arr[18] %> />
-								<input name="star2" type="radio" value="5" class="star {split:4}" <%=starDis %> <%=arr[19] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="0.25" class="star {split:4}" <%=starDis %> <%=arr[0] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="0.5" class="star {split:4}" <%=starDis %> <%=arr[1] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="0.75" class="star {split:4}" <%=starDis %> <%=arr[2] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="1" class="star {split:4}" <%=starDis %> <%=arr[3] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="1.25" class="star {split:4}" <%=starDis %> <%=arr[4] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="1.5" class="star {split:4}" <%=starDis %> <%=arr[5] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="1.75" class="star {split:4}" <%=starDis %> <%=arr[6] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="2" class="star {split:4}" <%=starDis %> <%=arr[7] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="2.25" class="star {split:4}" <%=starDis %> <%=arr[8] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="2.5" class="star {split:4}" <%=starDis %> <%=arr[9] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="2.75" class="star {split:4}" <%=starDis %> <%=arr[10] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="3" class="star {split:4}" <%=starDis %> <%=arr[11] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="3.25" class="star {split:4}" <%=starDis %> <%=arr[12] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="3.5" class="star {split:4}" <%=starDis %> <%=arr[13] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="3.75" class="star {split:4}" <%=starDis %> <%=arr[14] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="4" class="star {split:4}" <%=starDis %> <%=arr[15] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="4.25" class="star {split:4}" <%=starDis %> <%=arr[16] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="4.5" class="star {split:4}" <%=starDis %> <%=arr[17] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="4.75" class="star {split:4}" <%=starDis %> <%=arr[18] %> />
+								<input name="star<%=kurs.getKursid() %>" type="radio" value="5" class="star {split:4}" <%=starDis %> <%=arr[19] %> />
 							</td>
 							<td><input type="submit" class="btn btn-info" name="<%=idK %>" value="Prikazi" /></td>
 							<td><input type="submit" <%=dis %> class="btn btn-success" name="<%=idK %>" value="Prijavi se" /></td>

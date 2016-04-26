@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -78,24 +81,35 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     	return kursevi;
     }
     
-    public List<Ocena> getOcene(Kurs kurs){
-    	TypedQuery<Ocena> query = em.createQuery("SELECT o FROM Ocena o WHERE o.kur = :kurs AND o.datum >= :datum", Ocena.class);
-    	query.setParameter("kurs", kurs);
-    	
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	Calendar cal = sdf.getCalendar();
-    	cal.add(Calendar.MONTH, -1);
-    	Date datum = cal.getTime();
-    	
-    	query.setParameter("datum", datum);
+    public List<Ocena> getOcene(Kurs kurs, boolean thisMonth){
     	List<Ocena> ocene = null;
-    	
-    	try{
-    		ocene = query.getResultList();
-    	}catch(NoResultException e){
-    		return null;
+    	if (thisMonth){
+	    	TypedQuery<Ocena> query = em.createQuery("SELECT o FROM Ocena o WHERE o.kur = :kurs AND o.datum >= :datum", Ocena.class);
+	    	query.setParameter("kurs", kurs);
+	    	
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    	Calendar cal = sdf.getCalendar();
+	    	cal.setTime(new Date());
+	    	cal.add(Calendar.MONTH, -1);
+	    	Date datum = cal.getTime();
+	    	
+	    	query.setParameter("datum", datum);
+	    	
+	    	try{
+	    		ocene = query.getResultList();
+	    	}catch(NoResultException e){
+	    		return null;
+	    	}
+    	}else{
+    		TypedQuery<Ocena> query = em.createQuery("SELECT o FROM Ocena o WHERE o.kur = :kurs", Ocena.class);
+	    	query.setParameter("kurs", kurs);
+	    	
+	    	try{
+	    		ocene = query.getResultList();
+	    	}catch(NoResultException e){
+	    		return null;
+	    	}
     	}
-    	
     	return ocene;
     }
     
@@ -162,18 +176,53 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
 	    	case "Naziv": polje = "naziv"; break;
 	    	case "Opis": polje = "opis"; break;
 	    	case "Ishod": polje = "ishod"; break;
+	    	case "Top_Kursevi": polje = "Top_Kursevi"; break;
 	    	default : polje = ""; break;
     	}
     	
-    	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k WHERE k." + polje + " LIKE :str", Kurs.class);
-    	query.setParameter("str", "%" + pretraga + "%");
-    	
-    	try{
-    		kursevi = query.getResultList();
-    	}catch(NoResultException e){
-    		return new ArrayList<Kurs>();
+    	if (!polje.equals("Top_Kursevi")){
+	    	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k WHERE k." + polje + " LIKE :str", Kurs.class);
+	    	query.setParameter("str", "%" + pretraga + "%");
+	    	
+	    	try{
+	    		kursevi = query.getResultList();
+	    	}catch(NoResultException e){
+	    		return new ArrayList<Kurs>();
+	    	}
+    	}else{
+    		TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k", Kurs.class);
+    		try{
+    			kursevi = query.getResultList();
+    			Comparator<Kurs> comp = new Comparator<Kurs>(){
+    				@Override
+    				public int compare(Kurs k1, Kurs k2) {
+    					float avg1 = getAvg(k1);
+    					float avg2 = getAvg(k2);
+    					
+    					if (avg1 > avg2)
+    						return -1;
+    					else if (avg1 == avg2)
+    						return 0;
+    					else
+    						return 1;
+    				}
+    			};
+    			Collections.sort(kursevi, comp);
+    		}catch(NoResultException e){
+    			return new ArrayList<Kurs>();
+    		}
     	}
-    	
     	return kursevi;
+    }
+    
+    private float getAvg(Kurs k){
+    	float sum = 0;
+    	for (Ocena o : getOcene(k, true)){
+    		sum += Float.parseFloat(o.getOpis());
+    	}
+    	if (k.getOcenas().size() > 0){
+    		return sum / k.getOcenas().size();
+    	}else
+    		return 0;
     }
 }
