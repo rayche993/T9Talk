@@ -19,7 +19,7 @@ public class Lekcija implements Serializable {
 	private int lekcijaid;
 
 	private String naziv;
-	
+
 	@Lob
 	private String text;
 
@@ -49,9 +49,9 @@ public class Lekcija implements Serializable {
 	public void setLekcijaid(int lekcijaid) {
 		this.lekcijaid = lekcijaid;
 	}
-	
+
 	public String getNaziv() {
-		return naziv;
+		return this.naziv;
 	}
 
 	public void setNaziv(String naziv) {

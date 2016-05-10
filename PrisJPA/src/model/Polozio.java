@@ -2,26 +2,24 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 
 
 /**
- * The persistent class for the ocena database table.
+ * The persistent class for the polozio database table.
  * 
  */
 @Entity
-@NamedQuery(name="Ocena.findAll", query="SELECT o FROM Ocena o")
-public class Ocena implements Serializable {
+@NamedQuery(name="Polozio.findAll", query="SELECT p FROM Polozio p")
+public class Polozio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int ocenaid;
+	private int polozioid;
 
-	@Temporal(TemporalType.DATE)
-	private Date datum;
+	private int ocena;
 
-	private String opis;
+	private float prosek;
 
 	//bi-directional many-to-one association to Kurs
 	@ManyToOne
@@ -33,31 +31,31 @@ public class Ocena implements Serializable {
 	@JoinColumn(name="USERID")
 	private User user;
 
-	public Ocena() {
+	public Polozio() {
 	}
 
-	public int getOcenaid() {
-		return this.ocenaid;
+	public int getPolozioid() {
+		return this.polozioid;
 	}
 
-	public void setOcenaid(int ocenaid) {
-		this.ocenaid = ocenaid;
+	public void setPolozioid(int polozioid) {
+		this.polozioid = polozioid;
 	}
 
-	public Date getDatum() {
-		return this.datum;
+	public int getOcena() {
+		return this.ocena;
 	}
 
-	public void setDatum(Date datum) {
-		this.datum = datum;
+	public void setOcena(int ocena) {
+		this.ocena = ocena;
 	}
 
-	public String getOpis() {
-		return this.opis;
+	public float getProsek() {
+		return this.prosek;
 	}
 
-	public void setOpis(String opis) {
-		this.opis = opis;
+	public void setProsek(float prosek) {
+		this.prosek = prosek;
 	}
 
 	public Kurs getKur() {

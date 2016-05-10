@@ -11,6 +11,9 @@ import javax.persistence.TypedQuery;
 
 import model.Kurs;
 import model.Lekcija;
+import model.Odgovor;
+import model.Pitanje;
+import model.Test;
 import model.User;
 
 /**
@@ -69,5 +72,33 @@ public class LekcijaBean implements LekcijaBeanRemote, LekcijaBeanLocal {
     
     public Lekcija getLekcija(int id){
     	return em.find(Lekcija.class, id);
+    }
+    
+    public boolean saveTest(Test test, List<Pitanje> pitanja, List<Odgovor> odgovori){
+    	try{
+    		em.persist(test);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
+    	for (Pitanje p : pitanja){
+	    	try{
+	    		em.persist(p);
+	    	}catch(Exception e){
+	    		e.printStackTrace();
+	    		return false;
+	    	}
+    	}
+    	
+    	for (Odgovor o : odgovori){
+    		try{
+    			em.persist(o);
+    		}catch(Exception e){
+    			e.printStackTrace();
+    			return false;
+    		}
+    	}
+    	
+    	return true;
     }
 }

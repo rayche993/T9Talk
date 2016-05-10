@@ -2,26 +2,20 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 
 
 /**
- * The persistent class for the ocena database table.
+ * The persistent class for the predaje database table.
  * 
  */
 @Entity
-@NamedQuery(name="Ocena.findAll", query="SELECT o FROM Ocena o")
-public class Ocena implements Serializable {
+@NamedQuery(name="Predaje.findAll", query="SELECT p FROM Predaje p")
+public class Predaje implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int ocenaid;
-
-	@Temporal(TemporalType.DATE)
-	private Date datum;
-
-	private String opis;
+	private int predajeid;
 
 	//bi-directional many-to-one association to Kurs
 	@ManyToOne
@@ -33,31 +27,15 @@ public class Ocena implements Serializable {
 	@JoinColumn(name="USERID")
 	private User user;
 
-	public Ocena() {
+	public Predaje() {
 	}
 
-	public int getOcenaid() {
-		return this.ocenaid;
+	public int getPredajeid() {
+		return this.predajeid;
 	}
 
-	public void setOcenaid(int ocenaid) {
-		this.ocenaid = ocenaid;
-	}
-
-	public Date getDatum() {
-		return this.datum;
-	}
-
-	public void setDatum(Date datum) {
-		this.datum = datum;
-	}
-
-	public String getOpis() {
-		return this.opis;
-	}
-
-	public void setOpis(String opis) {
-		this.opis = opis;
+	public void setPredajeid(int predajeid) {
+		this.predajeid = predajeid;
 	}
 
 	public Kurs getKur() {

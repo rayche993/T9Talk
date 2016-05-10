@@ -26,14 +26,14 @@ public class Test implements Serializable {
 	@OneToMany(mappedBy="test")
 	private List<Pitanje> pitanjes;
 
-	//bi-directional many-to-one association to Polaze
-	@OneToMany(mappedBy="test")
-	private List<Polaze> polazes;
-
 	//bi-directional many-to-one association to Lekcija
 	@ManyToOne
 	@JoinColumn(name="LEKCIJAID")
 	private Lekcija lekcija;
+
+	//bi-directional many-to-one association to Uradio
+	@OneToMany(mappedBy="test")
+	private List<Uradio> uradios;
 
 	public Test() {
 	}
@@ -84,34 +84,34 @@ public class Test implements Serializable {
 		return pitanje;
 	}
 
-	public List<Polaze> getPolazes() {
-		return this.polazes;
-	}
-
-	public void setPolazes(List<Polaze> polazes) {
-		this.polazes = polazes;
-	}
-
-	public Polaze addPolaze(Polaze polaze) {
-		getPolazes().add(polaze);
-		polaze.setTest(this);
-
-		return polaze;
-	}
-
-	public Polaze removePolaze(Polaze polaze) {
-		getPolazes().remove(polaze);
-		polaze.setTest(null);
-
-		return polaze;
-	}
-
 	public Lekcija getLekcija() {
 		return this.lekcija;
 	}
 
 	public void setLekcija(Lekcija lekcija) {
 		this.lekcija = lekcija;
+	}
+
+	public List<Uradio> getUradios() {
+		return this.uradios;
+	}
+
+	public void setUradios(List<Uradio> uradios) {
+		this.uradios = uradios;
+	}
+
+	public Uradio addUradio(Uradio uradio) {
+		getUradios().add(uradio);
+		uradio.setTest(this);
+
+		return uradio;
+	}
+
+	public Uradio removeUradio(Uradio uradio) {
+		getUradios().remove(uradio);
+		uradio.setTest(null);
+
+		return uradio;
 	}
 
 }

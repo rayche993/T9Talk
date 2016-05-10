@@ -175,7 +175,7 @@ public class KursServlet extends HttpServlet {
 			if (logged){
 				if (userBean.isPolaznik()){
 					User myUser = userBean.getMyUser();
-					for (Kurs k : myUser.getKurs4()){
+					for (Kurs k : kursBean.getKursevi(myUser)){
 						if (k.getKursid() == kurs.getKursid()){
 							disabledSub = true;
 							starEnabled = true;

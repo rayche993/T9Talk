@@ -8,9 +8,11 @@
 		<class>model.Ocena</class>
 		<class>model.Odgovor</class>
 		<class>model.Pitanje</class>
-		<class>model.Polaze</class>
-		<class>model.PolazePK</class>
+		<class>model.Polozio</class>
+		<class>model.Predaje</class>
+		<class>model.Prijava</class>
 		<class>model.Test</class>
+		<class>model.Uradio</class>
 		<class>model.User</class>
 		<class>model.UserRole</class>
 	</persistence-unit>

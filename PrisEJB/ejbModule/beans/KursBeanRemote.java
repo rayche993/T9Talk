@@ -20,4 +20,5 @@ public interface KursBeanRemote {
 	public User subscribeUser(User u, Kurs k);
 	public boolean oceni(String ocena, Kurs kurs, User user);
 	public List<Ocena> getOcene(Kurs kurs, boolean thisMonth);
+	public List<Kurs> getKursevi(User user);
 }

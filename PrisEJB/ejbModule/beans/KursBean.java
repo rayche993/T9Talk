@@ -19,6 +19,7 @@ import javax.persistence.TypedQuery;
 import model.Komentar;
 import model.Kurs;
 import model.Ocena;
+import model.Prijava;
 import model.User;
 
 /**
@@ -54,19 +55,35 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     }
     
     public User subscribeUser(User u, Kurs k){
-    	u.getKurs4().add(k);
+    	Prijava p = new Prijava();
+    	p.setKur(k);
+    	p.setUser(u);
     	
     	try{
-    		u = em.merge(u);
+    		em.persist(p);
     	}catch(Exception e){
-    		e.printStackTrace();
     		return null;
     	}
+    	
     	return u;
     }
     
     public Kurs getKurs(int id){
     	return em.find(Kurs.class, id);
+    }
+    
+    public List<Kurs> getKursevi(User user){
+    	List<Kurs> kursevi = null;
+    	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k, Prijava p WHERE p.kur = k AND p.user = :user", Kurs.class);
+    	query.setParameter("user", user);
+    	
+    	try{
+    		kursevi = query.getResultList();
+    	}catch(NoResultException e){
+    		return null;
+    	}
+    	
+    	return kursevi;
     }
     
     public List<Kurs> getKursevi(){

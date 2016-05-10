@@ -5,16 +5,17 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the polaze database table.
+ * The persistent class for the uradio database table.
  * 
  */
 @Entity
-@NamedQuery(name="Polaze.findAll", query="SELECT p FROM Polaze p")
-public class Polaze implements Serializable {
+@NamedQuery(name="Uradio.findAll", query="SELECT u FROM Uradio u")
+public class Uradio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private PolazePK id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int uradioid;
 
 	private float brojbodova;
 
@@ -28,15 +29,15 @@ public class Polaze implements Serializable {
 	@JoinColumn(name="USERID")
 	private User user;
 
-	public Polaze() {
+	public Uradio() {
 	}
 
-	public PolazePK getId() {
-		return this.id;
+	public int getUradioid() {
+		return this.uradioid;
 	}
 
-	public void setId(PolazePK id) {
-		this.id = id;
+	public void setUradioid(int uradioid) {
+		this.uradioid = uradioid;
 	}
 
 	public float getBrojbodova() {

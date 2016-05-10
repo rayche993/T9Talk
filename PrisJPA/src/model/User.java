@@ -34,17 +34,17 @@ public class User implements Serializable {
 	@ManyToMany(mappedBy="users1")
 	private List<Kurs> kurs1;
 
-	//bi-directional many-to-many association to Kurs
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="users2")
-	private List<Kurs> kurs2;
-
 	//bi-directional many-to-one association to Lekcija
 	@OneToMany(mappedBy="user")
 	private List<Lekcija> lekcijas;
 
-	//bi-directional many-to-one association to Polaze
+	//bi-directional many-to-one association to Ocena
 	@OneToMany(mappedBy="user")
-	private List<Polaze> polazes;
+	private List<Ocena> ocenas;
+
+	//bi-directional many-to-one association to Predaje
+	@OneToMany(mappedBy="user")
+	private List<Predaje> predajes;
 
 	//bi-directional many-to-many association to Kurs
 	@ManyToMany
@@ -57,29 +57,24 @@ public class User implements Serializable {
 			@JoinColumn(name="KURSID")
 			}
 		)
-	private List<Kurs> kurs3;
-
-	//bi-directional many-to-many association to Kurs
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-		name="prijavljen"
-		, joinColumns={
-			@JoinColumn(name="USERID")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="KURSID")
-			}
-		)
-	private List<Kurs> kurs4;
+	private List<Kurs> kurs2;
 
 	//bi-directional many-to-one association to UserRole
 	@ManyToOne
 	@JoinColumn(name="ROLEID")
 	private UserRole userrole;
 
-	//bi-directional many-to-one association to Ocena
+	//bi-directional many-to-one association to Polozio
 	@OneToMany(mappedBy="user")
-	private List<Ocena> ocenas;
+	private List<Polozio> polozios;
+
+	//bi-directional many-to-one association to Prijava
+	@OneToMany(mappedBy="user")
+	private List<Prijava> prijavas;
+
+	//bi-directional many-to-one association to Uradio
+	@OneToMany(mappedBy="user")
+	private List<Uradio> uradios;
 
 	public User() {
 	}
@@ -154,14 +149,6 @@ public class User implements Serializable {
 		this.kurs1 = kurs1;
 	}
 
-	public List<Kurs> getKurs2() {
-		return this.kurs2;
-	}
-
-	public void setKurs2(List<Kurs> kurs2) {
-		this.kurs2 = kurs2;
-	}
-
 	public List<Lekcija> getLekcijas() {
 		return this.lekcijas;
 	}
@@ -184,52 +171,6 @@ public class User implements Serializable {
 		return lekcija;
 	}
 
-	public List<Polaze> getPolazes() {
-		return this.polazes;
-	}
-
-	public void setPolazes(List<Polaze> polazes) {
-		this.polazes = polazes;
-	}
-
-	public Polaze addPolaze(Polaze polaze) {
-		getPolazes().add(polaze);
-		polaze.setUser(this);
-
-		return polaze;
-	}
-
-	public Polaze removePolaze(Polaze polaze) {
-		getPolazes().remove(polaze);
-		polaze.setUser(null);
-
-		return polaze;
-	}
-
-	public List<Kurs> getKurs3() {
-		return this.kurs3;
-	}
-
-	public void setKurs3(List<Kurs> kurs3) {
-		this.kurs3 = kurs3;
-	}
-
-	public List<Kurs> getKurs4() {
-		return this.kurs4;
-	}
-
-	public void setKurs4(List<Kurs> kurs4) {
-		this.kurs4 = kurs4;
-	}
-
-	public UserRole getUserrole() {
-		return this.userrole;
-	}
-
-	public void setUserrole(UserRole userrole) {
-		this.userrole = userrole;
-	}
-
 	public List<Ocena> getOcenas() {
 		return this.ocenas;
 	}
@@ -250,6 +191,110 @@ public class User implements Serializable {
 		ocena.setUser(null);
 
 		return ocena;
+	}
+
+	public List<Predaje> getPredajes() {
+		return this.predajes;
+	}
+
+	public void setPredajes(List<Predaje> predajes) {
+		this.predajes = predajes;
+	}
+
+	public Predaje addPredaje(Predaje predaje) {
+		getPredajes().add(predaje);
+		predaje.setUser(this);
+
+		return predaje;
+	}
+
+	public Predaje removePredaje(Predaje predaje) {
+		getPredajes().remove(predaje);
+		predaje.setUser(null);
+
+		return predaje;
+	}
+
+	public List<Kurs> getKurs2() {
+		return this.kurs2;
+	}
+
+	public void setKurs2(List<Kurs> kurs2) {
+		this.kurs2 = kurs2;
+	}
+
+	public UserRole getUserrole() {
+		return this.userrole;
+	}
+
+	public void setUserrole(UserRole userrole) {
+		this.userrole = userrole;
+	}
+
+	public List<Polozio> getPolozios() {
+		return this.polozios;
+	}
+
+	public void setPolozios(List<Polozio> polozios) {
+		this.polozios = polozios;
+	}
+
+	public Polozio addPolozio(Polozio polozio) {
+		getPolozios().add(polozio);
+		polozio.setUser(this);
+
+		return polozio;
+	}
+
+	public Polozio removePolozio(Polozio polozio) {
+		getPolozios().remove(polozio);
+		polozio.setUser(null);
+
+		return polozio;
+	}
+
+	public List<Prijava> getPrijavas() {
+		return this.prijavas;
+	}
+
+	public void setPrijavas(List<Prijava> prijavas) {
+		this.prijavas = prijavas;
+	}
+
+	public Prijava addPrijava(Prijava prijava) {
+		getPrijavas().add(prijava);
+		prijava.setUser(this);
+
+		return prijava;
+	}
+
+	public Prijava removePrijava(Prijava prijava) {
+		getPrijavas().remove(prijava);
+		prijava.setUser(null);
+
+		return prijava;
+	}
+
+	public List<Uradio> getUradios() {
+		return this.uradios;
+	}
+
+	public void setUradios(List<Uradio> uradios) {
+		this.uradios = uradios;
+	}
+
+	public Uradio addUradio(Uradio uradio) {
+		getUradios().add(uradio);
+		uradio.setUser(this);
+
+		return uradio;
+	}
+
+	public Uradio removeUradio(Uradio uradio) {
+		getUradios().remove(uradio);
+		uradio.setUser(null);
+
+		return uradio;
 	}
 
 }

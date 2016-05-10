@@ -19,13 +19,7 @@
 	<% 
 	UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 	Kurs kurs = (Kurs)request.getSession().getAttribute("kurs");
-	InitialContext ic = null;
-	try {
-		ic = new InitialContext();
-		//kursBean = (KursBeanLocal) ic.lookup("java:global/PrisEAR/PrisEJB/KursBean!beans.KursBeanLocal");
-	} catch (NamingException e) {
-		e.printStackTrace();
-	}
+	
 	boolean logged = false;
 	if (user != null){
 		logged = true;
@@ -45,10 +39,17 @@
 		    		<li><a href="register.jsp">Register</a></li>
 		    	<%
 		    	}
-		    	if (logged && user.isAdmin()){
-	    		%>
-	    			<li><a href="admin.jsp">Admin Panel</a></li>
-	    		<%
+		    	if (logged){
+		    		if (user.isPredavac()){
+		    			%>
+				    	<li><a href="test.jsp">Novi Test</a></li>
+				    	<%
+				    }
+		    		if (user.isAdmin()){
+		    			%>
+		    			<li><a href="admin.jsp">Admin Panel</a></li>
+		    			<%
+		    		}
 		    	}
 		    	%>
 			</ul>
@@ -59,31 +60,31 @@
 		<%
 		if (kurs != null && logged){
 			Lekcija lekcija = (Lekcija)request.getAttribute("lekcija");
+			request.getSession().setAttribute("lekcija", lekcija);
 		%>
 		
-		<!-- Naziv kursa i dugme koje vraca nazad na kurs -->
-		<form action="/PrisWEB/KursServlet" method="post" class="form-horizontal">
-			<div class="form-group">
-			<h3>Kurs <%=kurs.getNaziv() %>
-				<input type="submit" class="btn btn-info btn-lg" name="<%=kurs.getKursid() %>" value="Prikazi">
-			</h3>
-			</div>
-		</form>
-		
-		
-		<form action="/PrisWEB/KursServlet" method="get" class="form-horizontal">
-			<div class="form-group">
-				<h2>Lekcija <%=lekcija.getNaziv() %></h2>
-			</div>
-			<div class="form-group">
-				<%= lekcija.getText() %>
-			</div>
-		</form>
-		<%
+			<!-- Naziv kursa i dugme koje vraca nazad na kurs -->
+			<form action="/PrisWEB/KursServlet" method="post" class="form-horizontal">
+				<div class="form-group">
+				<h3>Kurs <%=kurs.getNaziv() %>
+					<input type="submit" class="btn btn-info btn-lg" name="<%=kurs.getKursid() %>" value="Prikazi">
+				</h3>
+				</div>
+			</form>
+			
+			<form action="/PrisWEB/KursServlet" method="get" class="form-horizontal">
+				<div class="form-group">
+					<h2>Lekcija <%=lekcija.getNaziv() %></h2>
+				</div>
+				<div class="form-group">
+					<%= lekcija.getText() %>
+				</div>
+			</form>
+			<%
 		}else{
-		%>
-		Doslo je do greske!
-		<%
+			%>
+			Doslo je do greske!
+			<%
 		}
 		%>
 	</div>
