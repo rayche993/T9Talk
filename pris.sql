@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2016 at 07:25 PM
+-- Generation Time: May 16, 2016 at 12:22 AM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -34,18 +34,7 @@ CREATE TABLE IF NOT EXISTS `komentar` (
   PRIMARY KEY (`KOMENTARID`),
   KEY `FK_RELATIONSHIP_11` (`USERID`),
   KEY `FK_RELATIONSHIP_14` (`KURSID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `komentar`
---
-
-INSERT INTO `komentar` (`KOMENTARID`, `KURSID`, `USERID`, `OPIS`) VALUES
-(1, 1, 1, 'koMentar NEKI'),
-(2, 1, 4, 'Dodajem komentar'),
-(3, 1, 4, 'Komentarcic'),
-(4, 1, 4, 'hehe'),
-(5, 1, 4, 'idemo radimoooo');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -59,14 +48,15 @@ CREATE TABLE IF NOT EXISTS `kurs` (
   `OPIS` varchar(255) NOT NULL,
   `ISHOD` varchar(255) NOT NULL,
   PRIMARY KEY (`KURSID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `kurs`
 --
 
 INSERT INTO `kurs` (`KURSID`, `NAZIV`, `OPIS`, `ISHOD`) VALUES
-(1, 'Engleski jezik', 'englezi\r\nbarabe', 'i te\r\nkako');
+(1, 'Engleski jezik', 'englezi', 'premijer liga'),
+(2, 'Spanski jezik', 'spanci\r\nkomunjare', 'evropska\r\nunija ovo ono');
 
 -- --------------------------------------------------------
 
@@ -84,15 +74,14 @@ CREATE TABLE IF NOT EXISTS `lekcija` (
   PRIMARY KEY (`LEKCIJAID`),
   KEY `FK_RELATIONSHIP_19` (`USERID`),
   KEY `FK_RELATIONSHIP_5` (`KURSID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `lekcija`
 --
 
 INSERT INTO `lekcija` (`LEKCIJAID`, `KURSID`, `USERID`, `NAZIV`, `TEXT`, `TIPLEKCIJE`) VALUES
-(1, 1, 2, 'Prva lekcija', '<p>hehe ovo ono</p>\r\n<p><em><strong>fancy</strong></em></p>\r\n<p style="text-align: center;">i ovo&nbsp;<img src="http://cdn.tinymce.com/4/plugins/emoticons/img/smiley-laughing.gif" alt="laughing" /></p>\r\n<p style="text-align: center;">&nbsp;</p>\r\n<p style="text-align: center;">&nbsp;</p>\r\n<p style="text-align: right;"><img src="http://cdn.tinymce.com/4/plugins/emoticons/img/smiley-cool.gif" alt="cool" /></p>\r\n<p style="text-align: center;"><iframe src="//www.youtube.com/embed/gnR6UCO09Eo" width="560" height="316" allowfullscreen="allowfullscreen"></iframe></p>\r\n<p style="text-align: left;">Maksa car</p>', 0),
-(2, 1, 2, 'Druga lekcija', '<p style="text-align: center;">JESTE</p>\r\n<p style="text-align: left;"><iframe src="//www.youtube.com/embed/gnR6UCO09Eo" width="560" height="316" allowfullscreen="allowfullscreen"></iframe> hehe</p>', 0);
+(1, 1, 2, 'Prva Lekcija', '<p>Jeste</p>\r\n<p>ona je prva&nbsp;<img src="http://cdn.tinymce.com/4/plugins/emoticons/img/smiley-tongue-out.gif" alt="tongue-out" /></p>', 0);
 
 -- --------------------------------------------------------
 
@@ -109,19 +98,16 @@ CREATE TABLE IF NOT EXISTS `ocena` (
   PRIMARY KEY (`OCENAID`),
   KEY `FK_RELATIONSHIP_20` (`USERID`),
   KEY `FK_RELATIONSHIP_21` (`KURSID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `ocena`
 --
 
 INSERT INTO `ocena` (`OCENAID`, `USERID`, `KURSID`, `OPIS`, `DATUM`) VALUES
-(1, 3, 1, '5', '2016-04-14'),
-(3, 3, 1, '3.5', '2016-04-16'),
-(12, 4, 1, '2.75', '2016-04-17'),
-(13, 5, 1, '2.5', '2016-04-19'),
-(14, 6, 1, '4.5', '2016-04-20'),
-(15, 7, 1, '1.5', '2016-04-20');
+(1, 4, 2, '3', '2016-04-27'),
+(2, 3, 1, '3.5', '2016-04-27'),
+(3, 3, 2, '1.75', '2016-04-27');
 
 -- --------------------------------------------------------
 
@@ -136,7 +122,29 @@ CREATE TABLE IF NOT EXISTS `odgovor` (
   `TACAN` tinyint(1) NOT NULL,
   PRIMARY KEY (`ODGOVORID`),
   KEY `FK_RELATIONSHIP_2` (`PITANJEID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+--
+-- Dumping data for table `odgovor`
+--
+
+INSERT INTO `odgovor` (`ODGOVORID`, `PITANJEID`, `TEXT`, `TACAN`) VALUES
+(1, 1, 'Jeste', 1),
+(2, 1, 'Nije', 0),
+(3, 2, 'Da', 1),
+(4, 2, 'Ne', 0),
+(5, 3, 'Da', 1),
+(6, 3, 'Ne', 0),
+(7, 4, 'Da', 1),
+(8, 4, 'Ne', 0),
+(9, 5, 'Moze', 1),
+(10, 5, 'Kako ne', 0),
+(11, 5, 'Uvek', 0),
+(12, 5, 'Jok bre', 0),
+(13, 6, 'kako ne bre', 1),
+(14, 6, 'jok', 0),
+(15, 6, 'ma da bre', 0),
+(16, 7, 'dg', 1);
 
 -- --------------------------------------------------------
 
@@ -151,21 +159,38 @@ CREATE TABLE IF NOT EXISTS `pitanje` (
   `TIPODGOVORA` int(11) NOT NULL,
   PRIMARY KEY (`PITANJEID`),
   KEY `FK_RELATIONSHIP_3` (`TESTID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `pitanje`
+--
+
+INSERT INTO `pitanje` (`PITANJEID`, `TESTID`, `TEXT`, `TIPODGOVORA`) VALUES
+(1, 1, 'Jel Rajko car?', 2),
+(2, 2, 'Jel radi i ovo?', 3),
+(3, 3, 'Ma samo jako, zar ne?', 2),
+(4, 4, 'Jel idem da spavam?', 2),
+(5, 5, 'Vise tacnih?', 3),
+(6, 6, 'Vise tacnih?', 3),
+(7, 7, 'dshfdsif?', 2),
+(8, 7, 'pitanje', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `polaze`
+-- Table structure for table `polozio`
 --
 
-CREATE TABLE IF NOT EXISTS `polaze` (
+CREATE TABLE IF NOT EXISTS `polozio` (
+  `POLOZIOID` int(11) NOT NULL AUTO_INCREMENT,
   `USERID` int(11) NOT NULL,
-  `TESTID` int(11) NOT NULL,
-  `BROJBODOVA` float NOT NULL,
-  PRIMARY KEY (`USERID`,`TESTID`),
-  KEY `FK_RELATIONSHIP_13` (`TESTID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `KURSID` int(11) NOT NULL,
+  `PROSEK` float NOT NULL,
+  `OCENA` int(11) NOT NULL,
+  PRIMARY KEY (`POLOZIOID`),
+  KEY `FK_RELATIONSHIP_24` (`USERID`),
+  KEY `FK_RELATIONSHIP_25` (`KURSID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -174,35 +199,38 @@ CREATE TABLE IF NOT EXISTS `polaze` (
 --
 
 CREATE TABLE IF NOT EXISTS `predaje` (
+  `PREDAJEID` int(11) NOT NULL AUTO_INCREMENT,
   `USERID` int(11) NOT NULL,
   `KURSID` int(11) NOT NULL,
-  PRIMARY KEY (`USERID`,`KURSID`),
+  PRIMARY KEY (`PREDAJEID`),
+  KEY `FK_RELATIONSHIP_15` (`USERID`),
   KEY `FK_RELATIONSHIP_16` (`KURSID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prijavljen`
+-- Table structure for table `prijava`
 --
 
-CREATE TABLE IF NOT EXISTS `prijavljen` (
-  `USERID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `prijava` (
+  `PRIJAVAID` int(11) NOT NULL AUTO_INCREMENT,
   `KURSID` int(11) NOT NULL,
-  PRIMARY KEY (`USERID`,`KURSID`),
-  KEY `FK_RELATIONSHIP_18` (`KURSID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `USERID` int(11) NOT NULL,
+  PRIMARY KEY (`PRIJAVAID`),
+  KEY `FK_RELATIONSHIP_17` (`KURSID`),
+  KEY `FK_RELATIONSHIP_18` (`USERID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `prijavljen`
+-- Dumping data for table `prijava`
 --
 
-INSERT INTO `prijavljen` (`USERID`, `KURSID`) VALUES
-(3, 1),
-(4, 1),
-(5, 1),
-(6, 1),
-(7, 1);
+INSERT INTO `prijava` (`PRIJAVAID`, `KURSID`, `USERID`) VALUES
+(1, 1, 3),
+(2, 1, 4),
+(3, 2, 4),
+(4, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -217,6 +245,35 @@ CREATE TABLE IF NOT EXISTS `test` (
   `OPIS` varchar(255) NOT NULL,
   PRIMARY KEY (`TESTID`),
   KEY `FK_RELATIONSHIP_4` (`LEKCIJAID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `test`
+--
+
+INSERT INTO `test` (`TESTID`, `LEKCIJAID`, `NASLOV`, `OPIS`) VALUES
+(1, 1, 'Test', 'Hehe'),
+(2, 1, 'Onako', 'sta znam'),
+(3, 1, 'Treci', 'primer'),
+(4, 1, 'Cetvrti', 'Primer'),
+(5, 1, 'Peti', 'Primer'),
+(6, 1, 'Sesti', 'PR'),
+(7, 1, 'naslov', 'sdogosdg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uradio`
+--
+
+CREATE TABLE IF NOT EXISTS `uradio` (
+  `URADIOID` int(11) NOT NULL AUTO_INCREMENT,
+  `USERID` int(11) NOT NULL,
+  `TESTID` int(11) NOT NULL,
+  `BROJBODOVA` float NOT NULL,
+  PRIMARY KEY (`URADIOID`),
+  KEY `FK_RELATIONSHIP_22` (`USERID`),
+  KEY `FK_RELATIONSHIP_23` (`TESTID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -234,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `PASSWORD` varchar(255) NOT NULL,
   PRIMARY KEY (`USERID`),
   KEY `FK_RELATIONSHIP_1` (`ROLEID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user`
@@ -243,11 +300,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`USERID`, `ROLEID`, `IME`, `PREZIME`, `USERNAME`, `PASSWORD`) VALUES
 (1, 1, 'Pris', 'Pris', 'admin', 'admin'),
 (2, 2, 'Rajko', 'Radonic', 'rayche', '123'),
-(3, 3, 'Marko', 'Ljubic', 'rouz', '123'),
-(4, 3, 'Neki', 'Lik', 'neki_lik', '123'),
-(5, 3, 'Bojan', 'Pijak', 'boki', '123'),
-(6, 3, 'Maksim', 'Lalic', 'maksa', '123'),
-(7, 3, 'Milan', 'Gataric', 'mico', '123');
+(3, 3, 'Bojan', 'Piljak', 'boki', '123'),
+(4, 3, 'Maksim', 'Lalic', 'maksa', '123');
 
 -- --------------------------------------------------------
 
@@ -308,11 +362,11 @@ ALTER TABLE `pitanje`
   ADD CONSTRAINT `FK_RELATIONSHIP_3` FOREIGN KEY (`TESTID`) REFERENCES `test` (`TESTID`);
 
 --
--- Constraints for table `polaze`
+-- Constraints for table `polozio`
 --
-ALTER TABLE `polaze`
-  ADD CONSTRAINT `FK_RELATIONSHIP_12` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`),
-  ADD CONSTRAINT `FK_RELATIONSHIP_13` FOREIGN KEY (`TESTID`) REFERENCES `test` (`TESTID`);
+ALTER TABLE `polozio`
+  ADD CONSTRAINT `FK_RELATIONSHIP_24` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_25` FOREIGN KEY (`KURSID`) REFERENCES `kurs` (`KURSID`);
 
 --
 -- Constraints for table `predaje`
@@ -322,17 +376,24 @@ ALTER TABLE `predaje`
   ADD CONSTRAINT `FK_RELATIONSHIP_16` FOREIGN KEY (`KURSID`) REFERENCES `kurs` (`KURSID`);
 
 --
--- Constraints for table `prijavljen`
+-- Constraints for table `prijava`
 --
-ALTER TABLE `prijavljen`
-  ADD CONSTRAINT `FK_RELATIONSHIP_17` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`),
-  ADD CONSTRAINT `FK_RELATIONSHIP_18` FOREIGN KEY (`KURSID`) REFERENCES `kurs` (`KURSID`);
+ALTER TABLE `prijava`
+  ADD CONSTRAINT `FK_RELATIONSHIP_17` FOREIGN KEY (`KURSID`) REFERENCES `kurs` (`KURSID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_18` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`);
 
 --
 -- Constraints for table `test`
 --
 ALTER TABLE `test`
   ADD CONSTRAINT `FK_RELATIONSHIP_4` FOREIGN KEY (`LEKCIJAID`) REFERENCES `lekcija` (`LEKCIJAID`);
+
+--
+-- Constraints for table `uradio`
+--
+ALTER TABLE `uradio`
+  ADD CONSTRAINT `FK_RELATIONSHIP_22` FOREIGN KEY (`USERID`) REFERENCES `user` (`USERID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_23` FOREIGN KEY (`TESTID`) REFERENCES `test` (`TESTID`);
 
 --
 -- Constraints for table `user`
