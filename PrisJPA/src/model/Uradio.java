@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -28,6 +29,10 @@ public class Uradio implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="USERID")
 	private User user;
+
+	//bi-directional many-to-one association to Uradioodgovor
+	@OneToMany(mappedBy="uradio")
+	private List<Uradioodgovor> uradioodgovors;
 
 	public Uradio() {
 	}
@@ -62,6 +67,28 @@ public class Uradio implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Uradioodgovor> getUradioodgovors() {
+		return this.uradioodgovors;
+	}
+
+	public void setUradioodgovors(List<Uradioodgovor> uradioodgovors) {
+		this.uradioodgovors = uradioodgovors;
+	}
+
+	public Uradioodgovor addUradioodgovor(Uradioodgovor uradioodgovor) {
+		getUradioodgovors().add(uradioodgovor);
+		uradioodgovor.setUradio(this);
+
+		return uradioodgovor;
+	}
+
+	public Uradioodgovor removeUradioodgovor(Uradioodgovor uradioodgovor) {
+		getUradioodgovors().remove(uradioodgovor);
+		uradioodgovor.setUradio(null);
+
+		return uradioodgovor;
 	}
 
 }

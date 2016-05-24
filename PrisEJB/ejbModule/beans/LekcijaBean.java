@@ -74,31 +74,5 @@ public class LekcijaBean implements LekcijaBeanRemote, LekcijaBeanLocal {
     	return em.find(Lekcija.class, id);
     }
     
-    public boolean saveTest(Test test, List<Pitanje> pitanja, List<Odgovor> odgovori){
-    	try{
-    		em.persist(test);
-    	}catch(Exception e){
-    		e.printStackTrace();
-    		return false;
-    	}
-    	for (Pitanje p : pitanja){
-	    	try{
-	    		em.persist(p);
-	    	}catch(Exception e){
-	    		e.printStackTrace();
-	    		return false;
-	    	}
-    	}
-    	
-    	for (Odgovor o : odgovori){
-    		try{
-    			em.persist(o);
-    		}catch(Exception e){
-    			e.printStackTrace();
-    			return false;
-    		}
-    	}
-    	
-    	return true;
-    }
+    
 }

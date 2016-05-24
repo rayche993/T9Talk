@@ -30,10 +30,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Komentar> komentars;
 
-	//bi-directional many-to-many association to Kurs
-	@ManyToMany(mappedBy="users1")
-	private List<Kurs> kurs1;
-
 	//bi-directional many-to-one association to Lekcija
 	@OneToMany(mappedBy="user")
 	private List<Lekcija> lekcijas;
@@ -42,31 +38,13 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Ocena> ocenas;
 
-	//bi-directional many-to-one association to Predaje
-	@OneToMany(mappedBy="user")
-	private List<Predaje> predajes;
-
-	//bi-directional many-to-many association to Kurs
-	@ManyToMany
-	@JoinTable(
-		name="predaje"
-		, joinColumns={
-			@JoinColumn(name="USERID")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="KURSID")
-			}
-		)
-	private List<Kurs> kurs2;
-
-	//bi-directional many-to-one association to UserRole
-	@ManyToOne
-	@JoinColumn(name="ROLEID")
-	private UserRole userrole;
-
 	//bi-directional many-to-one association to Polozio
 	@OneToMany(mappedBy="user")
 	private List<Polozio> polozios;
+
+	//bi-directional many-to-one association to Predaje
+	@OneToMany(mappedBy="user")
+	private List<Predaje> predajes;
 
 	//bi-directional many-to-one association to Prijava
 	@OneToMany(mappedBy="user")
@@ -75,6 +53,11 @@ public class User implements Serializable {
 	//bi-directional many-to-one association to Uradio
 	@OneToMany(mappedBy="user")
 	private List<Uradio> uradios;
+
+	//bi-directional many-to-one association to UserRole
+	@ManyToOne
+	@JoinColumn(name="ROLEID")
+	private UserRole userrole;
 
 	public User() {
 	}
@@ -141,14 +124,6 @@ public class User implements Serializable {
 		return komentar;
 	}
 
-	public List<Kurs> getKurs1() {
-		return this.kurs1;
-	}
-
-	public void setKurs1(List<Kurs> kurs1) {
-		this.kurs1 = kurs1;
-	}
-
 	public List<Lekcija> getLekcijas() {
 		return this.lekcijas;
 	}
@@ -193,44 +168,6 @@ public class User implements Serializable {
 		return ocena;
 	}
 
-	public List<Predaje> getPredajes() {
-		return this.predajes;
-	}
-
-	public void setPredajes(List<Predaje> predajes) {
-		this.predajes = predajes;
-	}
-
-	public Predaje addPredaje(Predaje predaje) {
-		getPredajes().add(predaje);
-		predaje.setUser(this);
-
-		return predaje;
-	}
-
-	public Predaje removePredaje(Predaje predaje) {
-		getPredajes().remove(predaje);
-		predaje.setUser(null);
-
-		return predaje;
-	}
-
-	public List<Kurs> getKurs2() {
-		return this.kurs2;
-	}
-
-	public void setKurs2(List<Kurs> kurs2) {
-		this.kurs2 = kurs2;
-	}
-
-	public UserRole getUserrole() {
-		return this.userrole;
-	}
-
-	public void setUserrole(UserRole userrole) {
-		this.userrole = userrole;
-	}
-
 	public List<Polozio> getPolozios() {
 		return this.polozios;
 	}
@@ -251,6 +188,28 @@ public class User implements Serializable {
 		polozio.setUser(null);
 
 		return polozio;
+	}
+
+	public List<Predaje> getPredajes() {
+		return this.predajes;
+	}
+
+	public void setPredajes(List<Predaje> predajes) {
+		this.predajes = predajes;
+	}
+
+	public Predaje addPredaje(Predaje predaje) {
+		getPredajes().add(predaje);
+		predaje.setUser(this);
+
+		return predaje;
+	}
+
+	public Predaje removePredaje(Predaje predaje) {
+		getPredajes().remove(predaje);
+		predaje.setUser(null);
+
+		return predaje;
 	}
 
 	public List<Prijava> getPrijavas() {
@@ -295,6 +254,14 @@ public class User implements Serializable {
 		uradio.setUser(null);
 
 		return uradio;
+	}
+
+	public UserRole getUserrole() {
+		return this.userrole;
+	}
+
+	public void setUserrole(UserRole userrole) {
+		this.userrole = userrole;
 	}
 
 }

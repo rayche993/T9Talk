@@ -32,6 +32,7 @@
 		    </div>
 		    <ul class="nav navbar-nav">
 		    	<li class="active"><a href="index.jsp">Home</a></li>
+		    	<li><a href="nastavnici-lista.jsp">Nastavnici</a></li>
 		    	<%
 		    	if (!logged){
 		    	%>

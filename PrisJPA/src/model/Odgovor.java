@@ -17,7 +17,7 @@ public class Odgovor implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int odgovorid;
 
-	private boolean tacan;
+	private byte tacan;
 
 	@Lob
 	private String text;
@@ -38,11 +38,11 @@ public class Odgovor implements Serializable {
 		this.odgovorid = odgovorid;
 	}
 
-	public boolean getTacan() {
+	public byte getTacan() {
 		return this.tacan;
 	}
 
-	public void setTacan(boolean tacan) {
+	public void setTacan(byte tacan) {
 		this.tacan = tacan;
 	}
 

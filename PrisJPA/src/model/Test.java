@@ -23,13 +23,13 @@ public class Test implements Serializable {
 	private String opis;
 
 	//bi-directional many-to-one association to Pitanje
-	@OneToMany(mappedBy="test")
+	@OneToMany(mappedBy="test",fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
 	private List<Pitanje> pitanjes;
 
-	//bi-directional many-to-one association to Lekcija
+	//bi-directional many-to-one association to Kurs
 	@ManyToOne
-	@JoinColumn(name="LEKCIJAID")
-	private Lekcija lekcija;
+	@JoinColumn(name="KURSID")
+	private Kurs kur;
 
 	//bi-directional many-to-one association to Uradio
 	@OneToMany(mappedBy="test")
@@ -84,12 +84,12 @@ public class Test implements Serializable {
 		return pitanje;
 	}
 
-	public Lekcija getLekcija() {
-		return this.lekcija;
+	public Kurs getKur() {
+		return this.kur;
 	}
 
-	public void setLekcija(Lekcija lekcija) {
-		this.lekcija = lekcija;
+	public void setKur(Kurs kur) {
+		this.kur = kur;
 	}
 
 	public List<Uradio> getUradios() {

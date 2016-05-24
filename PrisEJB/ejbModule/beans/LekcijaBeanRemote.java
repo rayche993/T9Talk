@@ -17,5 +17,4 @@ public interface LekcijaBeanRemote {
 	public List<Lekcija> getLekcije(Kurs kurs);
 	public Lekcija getLekcija(int id);
 	public boolean updateLekcija(Lekcija lekcija);
-	public boolean saveTest(Test test, List<Pitanje> pitanja, List<Odgovor> odgovori);
 }

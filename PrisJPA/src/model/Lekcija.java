@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -34,10 +33,6 @@ public class Lekcija implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="USERID")
 	private User user;
-
-	//bi-directional many-to-one association to Test
-	@OneToMany(mappedBy="lekcija")
-	private List<Test> tests;
 
 	public Lekcija() {
 	}
@@ -88,28 +83,6 @@ public class Lekcija implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public List<Test> getTests() {
-		return this.tests;
-	}
-
-	public void setTests(List<Test> tests) {
-		this.tests = tests;
-	}
-
-	public Test addTest(Test test) {
-		getTests().add(test);
-		test.setLekcija(this);
-
-		return test;
-	}
-
-	public Test removeTest(Test test) {
-		getTests().remove(test);
-		test.setLekcija(null);
-
-		return test;
 	}
 
 }

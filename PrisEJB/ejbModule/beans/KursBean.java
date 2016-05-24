@@ -19,6 +19,8 @@ import javax.persistence.TypedQuery;
 import model.Komentar;
 import model.Kurs;
 import model.Ocena;
+import model.Polozio;
+import model.Predaje;
 import model.Prijava;
 import model.User;
 
@@ -42,7 +44,7 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     	kurs.setNaziv(naziv);
     	kurs.setIshod(ishod);
     	kurs.setOpis(opis);
-    	kurs.setUsers2(new ArrayList<User>());
+    	//kurs.setUsers2(new ArrayList<User>());
     	
     	try{
     		em.persist(kurs);
@@ -86,6 +88,34 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     	return kursevi;
     }
     
+    public List<Kurs> getKurseviPredaje(User user){
+    	List<Kurs> kursevi = null;
+    	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k, Predaje p WHERE p.kur = k AND p.user = :user", Kurs.class);
+    	query.setParameter("user", user);
+    	
+    	try{
+    		kursevi = query.getResultList();
+    	}catch(NoResultException e){
+    		return null;
+    	}
+    	
+    	return kursevi;
+    }
+    
+    public User predaji(User u, Kurs k){
+    	Predaje p = new Predaje();
+    	p.setKur(k);
+    	p.setUser(u);
+    	
+    	try{
+    		em.persist(p);
+    	}catch(Exception e){
+    		return null;
+    	}
+    	
+    	return u;
+    }
+    
     public List<Kurs> getKursevi(){
     	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k", Kurs.class);
     	List<Kurs> kursevi = null;
@@ -97,6 +127,8 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     	}
     	return kursevi;
     }
+    
+    
     
     public List<Ocena> getOcene(Kurs kurs, boolean thisMonth){
     	List<Ocena> ocene = null;
@@ -184,8 +216,8 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     	}
     	return true;
     }
-    
-    public List<Kurs> getKursevi(String pretraga, String parametar){
+    //menjao
+    public List<Kurs> getKursevi(String pretraga, String parametar, User user){
     	List<Kurs> kursevi = null;
     	
     	String polje = null;
@@ -194,11 +226,28 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
 	    	case "Opis": polje = "opis"; break;
 	    	case "Ishod": polje = "ishod"; break;
 	    	case "Top_Kursevi": polje = "Top_Kursevi"; break;
+	    	case "Polozeni": polje ="Polozeni"; break;
 	    	default : polje = ""; break;
     	}
     	
+    	//pretraga po polozeni
+    	if(polje.equals("Polozeni")){
+    		System.out.println("Uso sam tamo gde treba");
+    		TypedQuery<Kurs> query = em.createQuery("SELECT p.kur FROM Polozio p WHERE p.user = :user", Kurs.class);
+	    	query.setParameter("user", user);
+	    	
+	    	try{
+	    		kursevi = query.getResultList();
+	    		return kursevi;
+	    	}catch(NoResultException e){
+	    		return new ArrayList<Kurs>();
+	    	}
+    	}
+    	
+    	//ostale pretrage
     	if (!polje.equals("Top_Kursevi")){
-	    	TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k WHERE k." + polje + " LIKE :str", Kurs.class);
+    		System.out.println("uso sam tamo gde netreba");
+    		TypedQuery<Kurs> query = em.createQuery("SELECT k FROM Kurs k WHERE k." + polje + " LIKE :str", Kurs.class);
 	    	query.setParameter("str", "%" + pretraga + "%");
 	    	
 	    	try{
@@ -241,5 +290,17 @@ public class KursBean implements KursBeanRemote, KursBeanLocal {
     		return sum / k.getOcenas().size();
     	}else
     		return 0;
+    }
+    
+    public List<User> getPredavaci(){
+    	List<User> predavaci;
+    	TypedQuery<User> query = em.createQuery("SELECT u FROM User u,UserRole ur WHERE u.userrole.roleid = :id ",User.class);
+    	query.setParameter("id",2);
+    	
+    	try{
+    		return predavaci = query.getResultList();
+    	}catch(Exception e){
+    		return new ArrayList<User>();
+    	}
     }
 }

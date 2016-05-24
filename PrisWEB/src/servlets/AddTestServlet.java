@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.LekcijaBeanLocal;
+import beans.TestBeanLocal;
+import model.Kurs;
 import model.Lekcija;
 import model.Odgovor;
 import model.Pitanje;
@@ -42,7 +43,7 @@ public class AddTestServlet extends HttpServlet {
 	}
 
 	@EJB
-	private LekcijaBeanLocal lekcijaBean;
+	private TestBeanLocal testBean;
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -62,8 +63,8 @@ public class AddTestServlet extends HttpServlet {
 		test.setNaslov(naslov);
 		test.setOpis(opis);
 		
-		Lekcija lekcija = (Lekcija) request.getSession().getAttribute("lekcija");
-		test.setLekcija(lekcija);
+		Kurs kurs = (Kurs) request.getSession().getAttribute("kurs");
+		test.setKur(kurs);
 		
 		List<Pitanje> pitanja = new ArrayList<Pitanje>();
 		List<Odgovor> answers = new ArrayList<Odgovor>();
@@ -82,15 +83,15 @@ public class AddTestServlet extends HttpServlet {
 				
 				if (pitanje.getTipodgovora() == 1){
 					odg.setText("");
-					odg.setTacan(false);
+					odg.setTacan((byte)0);
 				}
 				else if (pitanje.getTipodgovora() == 2){
 					odg.setText(request.getParameter("txt-odg-"+j+"-pitanje-"+i));
 					
 					if (Integer.parseInt(check) == j)
-						odg.setTacan(true);
+						odg.setTacan((byte)1);
 					else
-						odg.setTacan(false);
+						odg.setTacan((byte)0);
 				}else if (pitanje.getTipodgovora() == 3){
 					odg.setText(request.getParameter("txt-odg-vise-"+j+"-pitanje-"+i));
 					String checkirani = request.getParameter("odg-check-" + i);
@@ -98,7 +99,7 @@ public class AddTestServlet extends HttpServlet {
 					System.out.println(checkirani);
 					for (String s : arrCheck){
 						if (Integer.parseInt(s) == j)
-							odg.setTacan(true);
+							odg.setTacan((byte)1);
 					}
 				}
 				answers.add(odg);
@@ -109,7 +110,7 @@ public class AddTestServlet extends HttpServlet {
 		
 		String path = "";
 		
-		if (lekcijaBean.saveTest(test, pitanja, answers))
+		if (testBean.saveTest(test, pitanja, answers))
 			path = "/index.jsp";
 		else
 			path = "/test.jsp";

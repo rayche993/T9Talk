@@ -51,6 +51,7 @@
 		    </div>
 		    <ul class="nav navbar-nav">
 		      <li class="active"><a href="index.jsp">Home</a></li>
+		      <li><a href="nastavnici-lista.jsp">Nastavnici</a></li>
 		<%
 		UserBeanRemote user = (UserBeanRemote)request.getSession().getAttribute("user");
 		if (user == null){
@@ -100,6 +101,13 @@
 						<option value="Opis">Opis</option>
 						<option value="Ishod">Ishod</option>
 						<option value="Top_Kursevi">Top kursevi</option>
+						<%
+						if (logged){
+						%>
+							<option value="Polozeni">Polozeni</option>
+						<%
+						}
+						%>
 					</select>
 				</div>
 				<div class="col-sm-9">
@@ -118,6 +126,15 @@
 						<th>Ocena</th>
 						<th>Prikaz</th>
 						<th>Prijava</th>
+						<% 
+								if (user != null){
+									if (user.isPredavac()){
+									%>							
+										<th>Predaji</th>
+									<%
+									}
+								}
+						%>
 					</tr>
 				</thead>
 				<tbody>
@@ -197,6 +214,30 @@
 							</td>
 							<td><input type="submit" class="btn btn-info" name="<%=idK %>" value="Prikazi" /></td>
 							<td><input type="submit" <%=dis %> class="btn btn-success" name="<%=idK %>" value="Prijavi se" /></td>
+							<%
+								if (user != null){
+									if (user.isPredavac()){
+										disabled = false;
+										if (logged && user.isPredavac()){
+											User myUser = user.getMyUser();
+											if (myUser != null){
+												for (Kurs k : kursBean.getKurseviPredaje(myUser)){
+													if (k.getKursid() == kurs.getKursid()){
+														disabled = true;
+														break;
+													}
+												}
+											}
+										}else{
+											disabled = true;
+										}
+										String disp = disabled ? "disabled" : "";;
+										%>
+										<td><input type="submit" <%=disp %> class="btn btn-success" name="<%=idK %>" value="Predaji" /></td>
+										<%
+									}
+								}
+							%>
 						</tr>
 						<%
 					}

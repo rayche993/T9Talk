@@ -31,6 +31,7 @@
 			    </div>
 			    <ul class="nav navbar-nav">
 			    	<li><a href="index.jsp">Home</a></li>
+			    	<li><a href="nastavnici-lista.jsp">Nastavnici</a></li>
 			    	<li class="active"><a href="login.jsp">Login</a></li>
 			    	<%
 			    	if (!logged){

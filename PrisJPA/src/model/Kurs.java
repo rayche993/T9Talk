@@ -28,19 +28,6 @@ public class Kurs implements Serializable {
 	@OneToMany(mappedBy="kur")
 	private List<Komentar> komentars;
 
-	//bi-directional many-to-many association to User
-	@ManyToMany
-	@JoinTable(
-		name="predaje"
-		, joinColumns={
-			@JoinColumn(name="KURSID")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="USERID")
-			}
-		)
-	private List<User> users1;
-
 	//bi-directional many-to-one association to Lekcija
 	@OneToMany(mappedBy="kur")
 	private List<Lekcija> lekcijas;
@@ -49,21 +36,21 @@ public class Kurs implements Serializable {
 	@OneToMany(mappedBy="kur")
 	private List<Ocena> ocenas;
 
-	//bi-directional many-to-one association to Predaje
-	@OneToMany(mappedBy="kur")
-	private List<Predaje> predajes;
-
-	//bi-directional many-to-many association to User
-	@ManyToMany(mappedBy="kurs2")
-	private List<User> users2;
-
 	//bi-directional many-to-one association to Polozio
 	@OneToMany(mappedBy="kur")
 	private List<Polozio> polozios;
 
+	//bi-directional many-to-one association to Predaje
+	@OneToMany(mappedBy="kur")
+	private List<Predaje> predajes;
+
 	//bi-directional many-to-one association to Prijava
 	@OneToMany(mappedBy="kur")
 	private List<Prijava> prijavas;
+
+	//bi-directional many-to-one association to Test
+	@OneToMany(mappedBy="kur")
+	private List<Test> tests;
 
 	public Kurs() {
 	}
@@ -122,14 +109,6 @@ public class Kurs implements Serializable {
 		return komentar;
 	}
 
-	public List<User> getUsers1() {
-		return this.users1;
-	}
-
-	public void setUsers1(List<User> users1) {
-		this.users1 = users1;
-	}
-
 	public List<Lekcija> getLekcijas() {
 		return this.lekcijas;
 	}
@@ -174,36 +153,6 @@ public class Kurs implements Serializable {
 		return ocena;
 	}
 
-	public List<Predaje> getPredajes() {
-		return this.predajes;
-	}
-
-	public void setPredajes(List<Predaje> predajes) {
-		this.predajes = predajes;
-	}
-
-	public Predaje addPredaje(Predaje predaje) {
-		getPredajes().add(predaje);
-		predaje.setKur(this);
-
-		return predaje;
-	}
-
-	public Predaje removePredaje(Predaje predaje) {
-		getPredajes().remove(predaje);
-		predaje.setKur(null);
-
-		return predaje;
-	}
-
-	public List<User> getUsers2() {
-		return this.users2;
-	}
-
-	public void setUsers2(List<User> users2) {
-		this.users2 = users2;
-	}
-
 	public List<Polozio> getPolozios() {
 		return this.polozios;
 	}
@@ -226,6 +175,28 @@ public class Kurs implements Serializable {
 		return polozio;
 	}
 
+	public List<Predaje> getPredajes() {
+		return this.predajes;
+	}
+
+	public void setPredajes(List<Predaje> predajes) {
+		this.predajes = predajes;
+	}
+
+	public Predaje addPredaje(Predaje predaje) {
+		getPredajes().add(predaje);
+		predaje.setKur(this);
+
+		return predaje;
+	}
+
+	public Predaje removePredaje(Predaje predaje) {
+		getPredajes().remove(predaje);
+		predaje.setKur(null);
+
+		return predaje;
+	}
+
 	public List<Prijava> getPrijavas() {
 		return this.prijavas;
 	}
@@ -246,6 +217,28 @@ public class Kurs implements Serializable {
 		prijava.setKur(null);
 
 		return prijava;
+	}
+
+	public List<Test> getTests() {
+		return this.tests;
+	}
+
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
+	}
+
+	public Test addTest(Test test) {
+		getTests().add(test);
+		test.setKur(this);
+
+		return test;
+	}
+
+	public Test removeTest(Test test) {
+		getTests().remove(test);
+		test.setKur(null);
+
+		return test;
 	}
 
 }

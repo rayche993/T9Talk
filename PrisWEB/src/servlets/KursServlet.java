@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.KursBeanLocal;
 import beans.LekcijaBeanLocal;
+import beans.TestBeanLocal;
 import beans.UserBeanLocal;
 import beans.UserBeanRemote;
 import model.Komentar;
 import model.Kurs;
 import model.Lekcija;
 import model.Ocena;
+import model.Test;
 import model.User;
 
 /**
@@ -42,6 +44,9 @@ public class KursServlet extends HttpServlet {
     
     @EJB
     LekcijaBeanLocal lekcijaBean;
+    
+    @EJB
+    TestBeanLocal testBean;
     
 	/** 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -99,6 +104,7 @@ public class KursServlet extends HttpServlet {
 		String glasaj = request.getParameter("glasaj");
 		int prikazID = -1;
 		int prijavaID = -1;
+		int predajiID = -1;
 		boolean glasanje = false;
 		if (glasaj != null)
 			glasanje = glasaj.equals("Glasaj");
@@ -127,6 +133,13 @@ public class KursServlet extends HttpServlet {
 							e.printStackTrace();
 						}
 					}
+					if (request.getParameter(ime).equals("Predaji")){
+						try{
+							predajiID = Integer.parseInt(ime);
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 			
@@ -140,6 +153,19 @@ public class KursServlet extends HttpServlet {
 					prijava = "Uspesno ste se prijavili " + myUser.getUsername() + " na kurs " + kurs.getNaziv();
 				}else
 					prijava = "Neuspesno ste se prijavili";
+				
+				request.setAttribute("prijava", prijava);
+				rd = getServletContext().getRequestDispatcher("/index.jsp");
+			}
+			
+			if (predajiID > -1){
+				kurs = kursBean.getKurs(predajiID);
+				User myUser = null;
+				if ((myUser = kursBean.predaji(userBean.getMyUser(), kurs)) != null){
+					userBean.setMyUser(myUser);
+					prijava = "Uspesno predajete " + myUser.getUsername() + " kurs " + kurs.getNaziv();
+				}else
+					prijava = "Neuspesno ste se pokusali da predajete";
 				
 				request.setAttribute("prijava", prijava);
 				rd = getServletContext().getRequestDispatcher("/index.jsp");
@@ -161,6 +187,7 @@ public class KursServlet extends HttpServlet {
 			
 			List<Komentar> komentari = kursBean.getKomentari(kurs);
 			List<Lekcija> lekcije = lekcijaBean.getLekcije(kurs);
+			List<Test> testovi = testBean.getTestovi(kurs);
 			
 			String starDis = new String("");
 			String disSub = new String("");
@@ -234,6 +261,7 @@ public class KursServlet extends HttpServlet {
 			request.setAttribute("disSub", disSub);
 			request.setAttribute("starDis", starDis);
 			request.setAttribute("disLekcija", disLekcija);
+			request.setAttribute("testovi", testovi);
 			
 			rd = getServletContext().getRequestDispatcher("/kurs.jsp");
 		}
